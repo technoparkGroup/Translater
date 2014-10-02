@@ -37,11 +37,11 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
         else {
             holder = (LanguageElementHolder)convertView.getTag();
         }
-        holder.getView().setText(array[position].getName());
+        holder.getView().setText(array[position].getTitle());
         return view;
     }
 
-    public LanguageListElement getElement(int position) {
+    public LanguageElement getElement(int position) {
         if(position >=0) {
             return array[position];
         }

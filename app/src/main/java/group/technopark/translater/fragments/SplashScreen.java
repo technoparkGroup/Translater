@@ -31,7 +31,7 @@ public class SplashScreen extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_splash, container, false);
-        helloWorld = (TextView).findViewById(R.id.hello_world);
+        //helloWorld = (TextView).findViewById(R.id.hello_world);
         helloWorld.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
