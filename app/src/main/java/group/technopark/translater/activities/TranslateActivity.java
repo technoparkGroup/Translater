@@ -15,6 +15,7 @@ import group.technopark.translater.fragments.TranslateFragment;
 public class TranslateActivity extends Activity implements FragmentController{
 
     private LanguageElement languageFrom;
+    private TranslateFragment translateFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +26,20 @@ public class TranslateActivity extends Activity implements FragmentController{
         setContentView(R.layout.translate_activity);
 
         if (savedInstanceState == null){
-            TranslateFragment fragment = new TranslateFragment();
+            translateFragment = new TranslateFragment();
             Bundle bundle = new Bundle();
             bundle.putParcelable(LanguagesList.SELECTED_LANGUAGE, languageFrom);
-            fragment.setArguments(bundle);
-            setFragment(R.id.fragment_translate, fragment);
+            translateFragment.setArguments(bundle);
+            setFragment(R.id.fragment_translate, translateFragment);
+        }else {
+            translateFragment = (TranslateFragment)getFragmentManager().getFragment(savedInstanceState, "translateFragment");
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getFragmentManager().putFragment(outState, "translateFragment", translateFragment);
     }
 
     @Override

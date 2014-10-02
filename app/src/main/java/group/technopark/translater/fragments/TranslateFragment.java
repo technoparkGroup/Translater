@@ -38,7 +38,22 @@ public class TranslateFragment extends Fragment implements View.OnClickListener{
         translate.setOnClickListener(this);
         translatedText = (TextView)layout.findViewById(R.id.translated_text);
         textToTranslate = (TextView)layout.findViewById(R.id.text_to_translate);
+        if (savedInstanceState != null){
+            languageElement = savedInstanceState.getParcelable(LANGUAGE_ELEMENT);
+            textToTranslate.setText(savedInstanceState.getString(TEXT_TO_TRANSLATE));
+            translatedText.setText(savedInstanceState.getString(TRANSLATED_TEXT));
+        }
         return layout;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null){
+            languageElement = savedInstanceState.getParcelable(LANGUAGE_ELEMENT);
+            textToTranslate.setText(savedInstanceState.getString(TEXT_TO_TRANSLATE));
+            translatedText.setText(savedInstanceState.getString(TRANSLATED_TEXT));
+        }
     }
 
     @Override
