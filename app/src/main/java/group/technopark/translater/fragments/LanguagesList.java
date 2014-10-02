@@ -6,13 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import group.technopark.translater.R;
 
-public class SplashScreen extends Fragment{
+public class LanguagesList extends Fragment{
 
-    TextView helloWorld;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -21,14 +20,8 @@ public class SplashScreen extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_splash, container, false);
-        helloWorld = (TextView)layout.findViewById(R.id.hello_world);
-        helloWorld.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                
-            }
-        });
+        View layout = inflater.inflate(R.layout.fragment_languages_list, container, false);
+
         return layout;
 
     }
