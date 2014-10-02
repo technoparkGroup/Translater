@@ -6,9 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
- * Created by Elvira on 02.10.2014.
- */
 public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageElement> {
     LanguageElement[] array;
     int layoutResource;
@@ -20,7 +17,6 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
         inflater = context.getLayoutInflater();
         layoutResource = resourceId;
     }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -37,11 +33,11 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
         else {
             holder = (LanguageElementHolder)convertView.getTag();
         }
-        holder.getView().setText(array[position].getName());
+        holder.getView().setText(array[position].getTitle());
         return view;
     }
 
-    public LanguageListElement getElement(int position) {
+    public LanguageElement getElement(int position) {
         if(position >=0) {
             return array[position];
         }
