@@ -14,9 +14,14 @@ import group.technopark.translater.adapters.LanguageElement;
 
 public class TranslateFragment extends Fragment implements View.OnClickListener{
 
+    public static final String LANGUAGE_ELEMENT = "language_element";
+    public static final String TEXT_TO_TRANSLATE = "text_to_translate";
+    public static final String TRANSLATED_TEXT = "translated_text";
+
     private LanguageElement languageElement;
     private ImageButton translate;
     private TextView translatedText;
+    private TextView textToTranslate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +37,16 @@ public class TranslateFragment extends Fragment implements View.OnClickListener{
         translate = (ImageButton)layout.findViewById(R.id.swap);
         translate.setOnClickListener(this);
         translatedText = (TextView)layout.findViewById(R.id.translated_text);
+        textToTranslate = (TextView)layout.findViewById(R.id.text_to_translate);
         return layout;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(LANGUAGE_ELEMENT, languageElement);
+        outState.putString(TEXT_TO_TRANSLATE, textToTranslate.getText().toString());
+        outState.putString(TRANSLATED_TEXT, translatedText.getText().toString());
     }
 
 
