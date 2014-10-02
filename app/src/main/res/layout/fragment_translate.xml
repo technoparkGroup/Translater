@@ -33,4 +33,18 @@
         android:layout_below="@+id/spinner_select_lang"
         android:layout_alignRight="@+id/btn_translate"
         android:layout_alignEnd="@+id/btn_translate" />
+
+    <ImageButton
+        android:id="@+id/swap"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/swap"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/translated_text"
+        android:layout_below="@+id/swap"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
