@@ -1,4 +1,4 @@
-package group.technopark.translater;
+package group.technopark.translater.adapters;
 
 import android.widget.TextView;
 

@@ -14,7 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import group.technopark.translater.LanguageElement;
+import group.technopark.translater.adapters.LanguageElement;
 
 public class RequestTask extends AsyncTask<Void, Void, JSONArray> {
 
@@ -73,7 +73,7 @@ public class RequestTask extends AsyncTask<Void, Void, JSONArray> {
     private String getResponse(InputStream is) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(is));
         StringBuilder response = new StringBuilder();
-        String nextLine = "";
+        String nextLine;
         while ((nextLine = bf.readLine()) != null) {
             response.append(nextLine);
         }
