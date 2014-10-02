@@ -17,6 +17,7 @@ public class TranslateActivity extends Activity implements FragmentController{
     private LanguageElement languageFrom;
     private TranslateFragment translateFragment;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
@@ -33,6 +34,7 @@ public class TranslateActivity extends Activity implements FragmentController{
             setFragment(R.id.fragment_translate, translateFragment);
         }else {
             translateFragment = (TranslateFragment)getFragmentManager().getFragment(savedInstanceState, "translateFragment");
+            setFragment(R.id.fragment_translate, translateFragment);
         }
     }
 
