@@ -5,18 +5,19 @@
     android:layout_height="match_parent"
     android:padding="10dp">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Swap languages"
-        android:id="@+id/btn_swap_languages"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
 
-    <EditText
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/swap"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:src="@drawable/swap"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/translated_text"
-        android:layout_below="@+id/btn_swap_languages"
+        android:layout_below="@+id/swap"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
