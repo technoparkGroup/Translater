@@ -21,18 +21,17 @@
         android:layout_height="60dp"
         android:text="Translate"
         android:id="@+id/btn_translate"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="5dp" />
+        android:layout_alignTop="@+id/spinner_select_lang"
+        android:layout_alignRight="@+id/swap"
+        android:layout_alignEnd="@+id/swap" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/text_to_translate"
-        android:layout_below="@+id/spinner_select_lang"
-        android:layout_alignRight="@+id/btn_translate"
-        android:layout_alignEnd="@+id/btn_translate" />
+        android:layout_alignBottom="@+id/swap"
+        android:layout_toLeftOf="@+id/swap"
+        android:layout_toStartOf="@+id/swap" />
 
     <ImageButton
         android:id="@+id/swap"
@@ -45,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/translated_text"
-        android:layout_below="@+id/swap"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignTop="@+id/btn_translate"
+        android:layout_toRightOf="@+id/btn_translate"
+        android:layout_toEndOf="@+id/btn_translate" />
 </RelativeLayout>

@@ -29,7 +29,6 @@ public class TranslateFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
         Bundle bundle = getArguments();
         languageElement = bundle.getParcelable(LanguagesList.SELECTED_LANGUAGE);
     }
@@ -67,23 +66,12 @@ public class TranslateFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null){
-            languageElement = savedInstanceState.getParcelable(LANGUAGE_ELEMENT);
-            textToTranslate.setText(savedInstanceState.getString(TEXT_TO_TRANSLATE));
-            translatedText.setText(savedInstanceState.getString(TRANSLATED_TEXT));
-        }
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         outState.putParcelable(LANGUAGE_ELEMENT, languageElement);
         outState.putString(TEXT_TO_TRANSLATE, textToTranslate.getText().toString());
         outState.putString(TRANSLATED_TEXT, translatedText.getText().toString());
+        super.onSaveInstanceState(outState);
     }
-
 
     @Override
     public void onClick(View v) {

@@ -6,7 +6,7 @@
     android:minHeight="?android:attr/listPreferredItemHeightLarge">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/language_name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
