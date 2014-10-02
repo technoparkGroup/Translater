@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Swap languages"
-        android:id="@+id/fragment_translate_to"
+        android:id="@+id/btn_swap_languages"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -17,6 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/translated_text"
-        android:layout_below="@+id/fragment_translate_to"
+        android:layout_below="@+id/btn_swap_languages"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
