@@ -66,7 +66,7 @@ public class TranslateFragment
                 (getActivity(), R.layout.language_element_list, languageElements);
 
         spinner.setAdapter(languageAdapter);
-
+        spinner.setOnItemSelectedListener(this);
         translatedText = (TextView)layout.findViewById(R.id.translated_text);
         textToTranslate = (TextView)layout.findViewById(R.id.text_to_translate);
         textToTranslate.addTextChangedListener(new TextWatcher() {

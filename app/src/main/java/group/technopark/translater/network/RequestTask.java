@@ -36,9 +36,12 @@ public class RequestTask extends AsyncTask<Void, Void, JSONArray> {
         URLMaker urlMaker = new URLMaker(origin.getCode(), destination.getCode(), text);
         JSONArray result = null;
         try {
-            URL url  = new URL(urlMaker.getUrl());
+            String encodedURL = urlMaker.getUrl(); // = URLEncoder.encode(urlMaker.getUrl(), "UTF-8");
+            URL url  = new URL(encodedURL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
+            connection.setRequestProperty("Content-Type",
+                    "application/x-www-form-urlencoded");
             connection.connect();
             InputStream is = connection.getInputStream();
             String response = getResponse(is);
@@ -71,7 +74,7 @@ public class RequestTask extends AsyncTask<Void, Void, JSONArray> {
 
 
     private String getResponse(InputStream is) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(is));
+        BufferedReader bf = new BufferedReader(new InputStreamReader(is, "UTF-8"));
         StringBuilder response = new StringBuilder();
         String nextLine;
         while ((nextLine = bf.readLine()) != null) {
