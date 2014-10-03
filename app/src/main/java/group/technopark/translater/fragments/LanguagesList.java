@@ -17,6 +17,7 @@ import group.technopark.translater.activities.TranslateActivity;
 import group.technopark.translater.adapters.LanguageAdapter;
 import group.technopark.translater.adapters.LanguageElement;
 
+
 public class LanguagesList extends Fragment implements AdapterView.OnItemClickListener{
     public static final String SELECTED_LANGUAGE = "selected_language";
     private ListView languages;

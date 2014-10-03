@@ -22,9 +22,18 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
         layoutResource = resourceId;
     }
 
+    @Override public View getDropDownView(int position, View cnvtView, ViewGroup prnt) {
+        return getCustomView(position, cnvtView, prnt);
+    }
+
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        return getCustomView(position, convertView, parent);
+    }
+
+    public View getCustomView(int position, View convertView, ViewGroup parent){
         View view = convertView;
         LanguageElementHolder holder;
         if(view == null) {

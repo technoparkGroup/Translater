@@ -15,7 +15,9 @@ import group.technopark.translater.fragments.TranslateFragment;
 public class TranslateActivity extends Activity implements FragmentController{
 
     private LanguageElement languageFrom;
+    private LanguageElement languageTo;
     private TranslateFragment translateFragment;
+
 
 
     @Override
