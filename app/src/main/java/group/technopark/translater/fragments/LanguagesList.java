@@ -46,5 +46,7 @@ public class LanguagesList extends Fragment implements AdapterView.OnItemClickLi
         Intent intent = new Intent(LanguagesList.this.getActivity(), TranslateActivity.class);
         intent.putExtra(SELECTED_LANGUAGE, languageElements.get(position));
         startActivity(intent);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(SELECTED_LANGUAGE, languageElements.get(position));
     }
 }
