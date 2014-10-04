@@ -158,7 +158,7 @@ public class TranslateFragment
         spinnerLanguageListElements.clear();
         spinnerLanguageListElements.addAll(MainActivity.langWithDirections.get(languageFrom));
         languageAdapter.notifyDataSetChanged();
-        
+
         int spinnerLanguage = languageAdapter.getPositionByElement(languageTo);
         spinner.setSelection(spinnerLanguage);
 

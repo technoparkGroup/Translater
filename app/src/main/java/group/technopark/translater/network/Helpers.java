@@ -49,7 +49,16 @@ public class Helpers {
                 updater.setProgress(progress, max);
             response.append(nextLine);
         }
-        return response.toString();
+
+//        byte[] response = new byte[.available()];
+//        int line;
+//        while ((line = is.read(response, progress, 80)) != 0){
+//            progress += line;
+//            if (updater != null)
+//                updater.setProgress(progress, max);
+//        }
+
+        return new String(response);
     }
 
     public static HashMap<LanguageElement, ArrayList<LanguageElement>> createLangToDirectionMap(ArrayList<LanguageElement> languages, ArrayList<String> directions) {
