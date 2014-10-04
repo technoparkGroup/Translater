@@ -4,35 +4,47 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp">
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/language_from_textview"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:id="@+id/spinner_select_lang"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/btn_translate"
-        android:layout_toStartOf="@+id/btn_translate"
+        android:layout_toRightOf="@id/language_from_textview"
+        android:layout_toEndOf="@id/language_from_textview"
         android:layout_margin="5dp" />
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auto Translate"
+        android:id="@+id/auto_translate_checkbox"
+        android:layout_below="@+id/spinner_select_lang"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:text="Translate"
         android:id="@+id/btn_translate"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
+        android:layout_below="@+id/spinner_select_lang"
         android:layout_alignParentEnd="true"
-        android:layout_margin="5dp" />
+        android:layout_alignParentRight="true"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/text_to_translate"
-        android:layout_below="@+id/spinner_select_lang"
-        android:layout_alignRight="@+id/btn_translate"
-        android:layout_alignEnd="@+id/btn_translate" />
+        android:layout_below="@+id/btn_translate"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ImageButton
         android:id="@+id/swap"
@@ -47,4 +59,8 @@
         android:id="@+id/translated_text"
         android:layout_below="@+id/swap"
         android:layout_centerHorizontal="true" />
+
+
+
+
 </RelativeLayout>
