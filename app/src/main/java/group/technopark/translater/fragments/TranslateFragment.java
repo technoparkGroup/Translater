@@ -15,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import group.technopark.translater.R;
 import group.technopark.translater.activities.MainActivity;
 import group.technopark.translater.adapters.LanguageAdapter;
@@ -48,7 +50,8 @@ public class TranslateFragment
         System.out.print("Fragment onCreate");
         Bundle bundle = getArguments();
         languageFrom = bundle.getParcelable(LanguagesList.SELECTED_LANGUAGE);
-
+        languageAdapter = new LanguageAdapter
+                (getActivity(), R.layout.language_element_list, MainActivity.langWithDirections.get(languageFrom));
     }
 
     @Override
@@ -62,12 +65,13 @@ public class TranslateFragment
         swap.setOnClickListener(this);
 
         spinner = (Spinner)layout.findViewById(R.id.spinner_select_lang);
-        languageAdapter = new LanguageAdapter
-                (getActivity(), R.layout.language_element_list, MainActivity.langWithDirections.get(languageFrom));
+
         spinner.setAdapter(languageAdapter);
         spinner.setOnItemSelectedListener(this);
 
         languageTo = (LanguageElement)spinner.getSelectedItem();
+
+        tryEnableSwap();
 
         translatedText = (TextView)layout.findViewById(R.id.translated_text);
 
@@ -149,18 +153,24 @@ public class TranslateFragment
         textToTranslate.setText(translatedText.getText());
         translatedText.setText(toTranslate);
 
-        languageAdapter.setArray(MainActivity.langWithDirections.get(languageFrom));
+        languageAdapter = new LanguageAdapter(
+                getActivity(), R.layout.language_element_list, MainActivity.langWithDirections.get(languageFrom));
+        spinner.setAdapter(languageAdapter);
+//        languageAdapter.setArray(MainActivity.langWithDirections.get(languageFrom));
         int spinnerLanguage = languageAdapter.getPositionByElement(languageTo);
         spinner.setSelection(spinnerLanguage);
 
         languageFromTextView.setText(languageFrom.getTitle());
+
+        tryEnableSwap();
     }
 
     public void tryEnableSwap(){
-        swap.setEnabled(false);
+        swap.setVisibility(View.INVISIBLE);
         if (MainActivity.langWithDirections.containsKey(languageTo)){
-            if (MainActivity.langWithDirections.get(languageTo).contains(languageFrom))
-                swap.setEnabled(true);
+            ArrayList<LanguageElement> languageElements = MainActivity.langWithDirections.get(languageTo);
+            if (languageElements.contains(languageFrom))
+                swap.setVisibility(View.VISIBLE);
         }
     }
 }
