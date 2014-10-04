@@ -27,10 +27,18 @@ public class MainActivity extends Activity implements FragmentController {
     }
 
     @Override
-    public void setFragment(int container, Fragment fragment, String tag) {
+    public void setFragment(int container, Fragment fragment, String tag, Boolean backStack) {
+        if (backStack)
+            getFragmentManager().beginTransaction()
+                    .addToBackStack(null)
+                    .replace(container, fragment, tag)
+                    .commit();
+        else
         getFragmentManager().beginTransaction()
                 .replace(container, fragment, tag)
                 .commit();
+
+
     }
 
     @Override
@@ -42,16 +50,16 @@ public class MainActivity extends Activity implements FragmentController {
         Fragment fragment;
         fragment = getFragmentManager().findFragmentByTag(TRANSLATE_FRAGMENT_TAG);
         if (fragment != null){
-            setFragment(R.id.container, fragment, TRANSLATE_FRAGMENT_TAG);
+            setFragment(R.id.container, fragment, TRANSLATE_FRAGMENT_TAG, false);
             return;
         }
 
         fragment = getFragmentManager().findFragmentByTag(LANGUAGES_LIST_FRAGMENT_TAG);
         if (fragment != null){
-            setFragment(R.id.container, fragment, LANGUAGES_LIST_FRAGMENT_TAG);
+            setFragment(R.id.container, fragment, LANGUAGES_LIST_FRAGMENT_TAG, false);
             return;
         }
-        setFragment(R.id.container, new SplashScreen(), "");
+        setFragment(R.id.container, new SplashScreen(), "", false);
     }
 
     public static void setLanguageList(ArrayList<LanguageElement> langList) {

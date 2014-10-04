@@ -49,7 +49,7 @@ public class LanguagesList extends Fragment implements AdapterView.OnItemClickLi
         TranslateFragment translateFragment = new TranslateFragment();
         translateFragment.setArguments(bundle);
         ((MainActivity) getActivity()).
-                setFragment(R.id.container, translateFragment, MainActivity.TRANSLATE_FRAGMENT_TAG);
+                setFragment(R.id.container, translateFragment, MainActivity.TRANSLATE_FRAGMENT_TAG, true);
 
     }
 }

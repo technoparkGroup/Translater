@@ -45,7 +45,7 @@ public class LoaderTask extends AsyncTask<Void, Integer, Void> implements Helper
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        mCallback.setFragment(R.id.container, new LanguagesList(), "");
+        mCallback.setFragment(R.id.container, new LanguagesList(), MainActivity.LANGUAGES_LIST_FRAGMENT_TAG, false);
     }
 
     public void setProgress(int progress, int max){
