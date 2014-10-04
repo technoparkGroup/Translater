@@ -2,6 +2,10 @@ package group.technopark.translater.fragments;
 
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +24,7 @@ import group.technopark.translater.activities.MainActivity;
 import group.technopark.translater.adapters.LanguageAdapter;
 import group.technopark.translater.adapters.LanguageElement;
 import group.technopark.translater.network.RequestTask;
+import group.technopark.translater.network.TranslatingService;
 
 public class TranslateFragment
         extends Fragment
@@ -29,6 +34,9 @@ public class TranslateFragment
     public static final String LANGUAGE_ELEMENT_TO = "language_element_to";
     public static final String TEXT_TO_TRANSLATE = "text_to_translate";
     public static final String TRANSLATED_TEXT = "translated_text";
+
+    public static final String BROADCAST = "my_broadcast_action";
+
 
     private LanguageElement languageFrom;
     private LanguageElement languageTo;
@@ -41,6 +49,7 @@ public class TranslateFragment
     private CheckBox autoTranslateCheckbox;
 
     private LanguageAdapter languageAdapter;
+    private BroadcastReceiver receiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,18 +58,33 @@ public class TranslateFragment
         Bundle bundle = getArguments();
         languageFrom = bundle.getParcelable(LanguagesList.SELECTED_LANGUAGE);
 
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String text = intent.getStringExtra(TRANSLATED_TEXT);
+                if(translatedText != null) {
+                    translatedText.setText(text);
+                }
+            }
+        };
+        IntentFilter filter = new IntentFilter(BROADCAST);
+        getActivity().registerReceiver(receiver, filter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(getActivity() != null)
+            getActivity().unregisterReceiver(receiver);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_translate, container, false);
-
         translate = (Button)layout.findViewById(R.id.btn_translate);
         translate.setOnClickListener(this);
-
         swap = (ImageButton)layout.findViewById(R.id.swap);
         swap.setOnClickListener(this);
-
         spinner = (Spinner)layout.findViewById(R.id.spinner_select_lang);
         languageAdapter = new LanguageAdapter
                 (getActivity(), R.layout.language_element_list, MainActivity.langWithDirections.get(languageFrom));
@@ -120,8 +144,11 @@ public class TranslateFragment
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_translate:
-                RequestTask task = new RequestTask(languageFrom, new LanguageElement("asd", "ru"), translatedText, getActivity());
-                task.execute(textToTranslate.getText().toString());
+                Intent serviceIntent = new Intent(getActivity(), TranslatingService.class);
+                serviceIntent.putExtra(TranslatingService.TEXT, textToTranslate.getText())
+                             .putExtra(TranslatingService.DESTINATION, languageTo)
+                             .putExtra(TranslatingService.ORIGIN, languageFrom);
+                getActivity().startService(serviceIntent);
                 break;
             case R.id.swap:
                 swapLanguages();
