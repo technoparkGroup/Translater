@@ -97,10 +97,10 @@ public class TranslateFragment
             }
         });
 
-        languageFromTextView = (TextView)layout.findViewById(R.id.language_from_textview);
+        languageFromTextView = (TextView)layout.findViewById(R.id.origin_language);
         languageFromTextView.setText(languageFrom.getTitle());
 
-        autoTranslateCheckbox = (CheckBox)layout.findViewById(R.id.auto_translate_checkbox);
+        autoTranslateCheckbox = (CheckBox)layout.findViewById(R.id.auto_translate);
 
         if (savedInstanceState != null){
             languageFrom = savedInstanceState.getParcelable(LANGUAGE_ELEMENT_FROM);

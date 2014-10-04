@@ -1,59 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/language_from_textview"
+        android:id="@+id/origin_language"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:gravity="center"/>
+
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:id="@+id/spinner_select_lang"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/language_from_textview"
-        android:layout_toEndOf="@id/language_from_textview"
+        android:layout_toRightOf="@id/origin_language"
+        android:layout_toEndOf="@id/origin_language"
         android:layout_margin="5dp" />
+
+    <EditText
+        android:padding="10dp"
+        android:background="#E3E3E3"
+        android:inputType="textMultiLine"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:id="@+id/text_to_translate"
+        android:layout_below="@+id/spinner_select_lang"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:minLines="3"
+        android:maxLines="6"
+        android:gravity="top|start"
+        android:scrollbars="vertical"/>
+
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Auto Translate"
-        android:id="@+id/auto_translate_checkbox"
-        android:layout_below="@+id/spinner_select_lang"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:text="@string/auto_translate"
+        android:id="@+id/auto_translate"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:text="Translate"
+        android:gravity="center"
+        android:text="@string/translate"
         android:id="@+id/btn_translate"
-        android:layout_below="@+id/spinner_select_lang"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:id="@+id/text_to_translate"
-        android:layout_below="@+id/btn_translate"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+        android:layout_centerVertical="true"/>
 
     <ImageButton
         android:id="@+id/swap"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:src="@drawable/swap"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_margin="20dp"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/swap_button_content_description" />
+
     <TextView
+        android:padding="10dp"
+        android:background="#E3E3E3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/translated_text"
