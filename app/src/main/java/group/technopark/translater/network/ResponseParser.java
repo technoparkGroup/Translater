@@ -44,15 +44,19 @@ public class ResponseParser {
         return text;
     }
 
-    public static JSONArray getDirections(String response, Context context) {
-        JSONArray dirs = null;
+    public static ArrayList<String> getDirections(String response, Context context) {
+        ArrayList<String> directions = null;
         try {
             JSONObject json = new JSONObject(response);
-            dirs = json.getJSONArray(DIRECTIONS);
+            JSONArray dirs = json.getJSONArray(DIRECTIONS);
+            directions = new ArrayList<String>();
+            for(int i = 0; i < dirs.length(); i++) {
+                directions.add(dirs.getString(i));
+            }
         } catch (JSONException e) {
             showErrMsg(response, context);
         }
-        return dirs;
+        return directions;
     }
 
     public static ArrayList<LanguageElement> getLanguages(String response, Context context) {
