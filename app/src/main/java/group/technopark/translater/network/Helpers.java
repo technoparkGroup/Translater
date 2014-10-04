@@ -88,4 +88,8 @@ public class Helpers {
             updater.setProgress(progress, max);
     }
 
+    public interface ProgressUpdater {
+        public void setProgress(int progress, int max);
+    }
+
 }

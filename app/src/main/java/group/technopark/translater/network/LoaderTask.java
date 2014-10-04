@@ -11,7 +11,7 @@ import group.technopark.translater.activities.FragmentController;
 import group.technopark.translater.activities.MainActivity;
 import group.technopark.translater.fragments.LanguagesList;
 
-public class LoaderTask extends AsyncTask<Void, Integer, Void> implements ProgressUpdater {
+public class LoaderTask extends AsyncTask<Void, Integer, Void> implements Helpers.ProgressUpdater {
     private ProgressBar mBar;
     private FragmentController mCallback;
     private Context mContext;
@@ -24,15 +24,15 @@ public class LoaderTask extends AsyncTask<Void, Integer, Void> implements Progre
 
     @Override
     protected Void doInBackground(Void... params) {
-        setProgress(0, 1);
-        String response = Helpers.makeRequest(URLMaker.getLanguageUrl(), null);
-        publishProgress(1);
-        MainActivity.languages = ResponseParser.getLanguages(response, mContext);
+        setProgress(0, 3);
+        String response = Helpers.makeRequest(URLMaker.getLanguageUrl(), this);
+        MainActivity.setLanguageList(ResponseParser.getLanguages(response, mContext));
         publishProgress(1);
         ArrayList<String> directions = ResponseParser.getDirections(response, mContext);
         publishProgress(2);
-        MainActivity.langWithDirections = Helpers.createLangToDirectionMap(MainActivity.languages, directions);
+        MainActivity.setLangToDirMap(Helpers.createLangToDirectionMap(MainActivity.getLanguages(), directions));
         publishProgress(3);
+
         return null;
     }
 

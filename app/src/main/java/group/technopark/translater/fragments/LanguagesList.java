@@ -31,10 +31,11 @@ public class LanguagesList extends Fragment implements AdapterView.OnItemClickLi
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_languages_list, container, false);
         languages = (ListView)layout.findViewById(R.id.languages_list);
-        languageElements = new ArrayList<LanguageElement>(MainActivity.langWithDirections.keySet());
+        languageElements = new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().keySet());
         LanguageAdapter adapter =
                 new LanguageAdapter(getActivity(), R.layout.language_element_list,
                         languageElements);
+
         languages.setAdapter(adapter);
         languages.setOnItemClickListener(this);
 
@@ -49,5 +50,6 @@ public class LanguagesList extends Fragment implements AdapterView.OnItemClickLi
         translateFragment.setArguments(bundle);
         ((MainActivity) getActivity()).
                 setFragment(R.id.container, translateFragment, MainActivity.TRANSLATE_FRAGMENT_TAG);
+
     }
 }
