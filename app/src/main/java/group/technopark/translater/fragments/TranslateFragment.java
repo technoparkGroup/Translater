@@ -43,6 +43,7 @@ public class TranslateFragment
     private CheckBox autoTranslateCheckbox;
 
     private LanguageAdapter languageAdapter;
+    private ArrayList<LanguageElement> spinnerLanguageListElements = new ArrayList<LanguageElement>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,8 +51,9 @@ public class TranslateFragment
         System.out.print("Fragment onCreate");
         Bundle bundle = getArguments();
         languageFrom = bundle.getParcelable(LanguagesList.SELECTED_LANGUAGE);
+        spinnerLanguageListElements.addAll(MainActivity.langWithDirections.get(languageFrom));
         languageAdapter = new LanguageAdapter
-                (getActivity(), R.layout.language_element_list, MainActivity.langWithDirections.get(languageFrom));
+                (getActivity(), R.layout.language_element_list, spinnerLanguageListElements);
     }
 
     @Override
@@ -153,10 +155,10 @@ public class TranslateFragment
         textToTranslate.setText(translatedText.getText());
         translatedText.setText(toTranslate);
 
-        languageAdapter = new LanguageAdapter(
-                getActivity(), R.layout.language_element_list, MainActivity.langWithDirections.get(languageFrom));
-        spinner.setAdapter(languageAdapter);
-//        languageAdapter.setArray(MainActivity.langWithDirections.get(languageFrom));
+        spinnerLanguageListElements.clear();
+        spinnerLanguageListElements.addAll(MainActivity.langWithDirections.get(languageFrom));
+        languageAdapter.notifyDataSetChanged();
+        
         int spinnerLanguage = languageAdapter.getPositionByElement(languageTo);
         spinner.setSelection(spinnerLanguage);
 
