@@ -62,5 +62,23 @@ public class LanguageElement implements Parcelable{
         }
     };
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LanguageElement)) return false;
 
+        LanguageElement that = (LanguageElement) o;
+
+        if (!code.equals(that.code)) return false;
+        if (!title.equals(that.title)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title.hashCode();
+        result = 31 * result + code.hashCode();
+        return result;
+    }
 }
