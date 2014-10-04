@@ -58,4 +58,14 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
         }
         return null;
     }
+
+    public int getPositionByElement(LanguageElement element){
+        for(int i = 0; i < array.size(); i++){
+            LanguageElement el = array.get(i);
+            if (el.getCode().equals(element.getCode())
+                    && el.getTitle().equals(element.getTitle()))
+                return i;
+        }
+        return -1;
+    }
 }

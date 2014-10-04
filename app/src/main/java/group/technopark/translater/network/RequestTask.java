@@ -36,7 +36,7 @@ public class RequestTask extends AsyncTask<Void, Void, JSONArray> {
         URLMaker urlMaker = new URLMaker(origin.getCode(), destination.getCode(), text);
         JSONArray result = null;
         try {
-            String encodedURL = urlMaker.getUrl(); // = URLEncoder.encode(urlMaker.getUrl(), "UTF-8");
+            String encodedURL = urlMaker.getUrl();
             URL url  = new URL(encodedURL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");

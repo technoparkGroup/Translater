@@ -82,7 +82,7 @@ public class TranslateFragment
 
             @Override
             public void afterTextChanged(Editable s) {
-                String a = s.toString().replace("\n", "");
+                String a = s.toString();
                 RequestTask task = new RequestTask(languageFrom, languageTo, a, translatedText);
                 task.execute();
             }
@@ -118,6 +118,11 @@ public class TranslateFragment
                 String toTranslate = textToTranslate.getText().toString();
                 textToTranslate.setText(translatedText.getText());
                 translatedText.setText(toTranslate);
+                int spinnerLanguage = languageAdapter.getPositionByElement(languageTo);
+                if (spinnerLanguage >= 0)
+                    spinner.setSelection(spinnerLanguage);
+                else
+                    spinner.setSelection(0);
         }
     }
 
