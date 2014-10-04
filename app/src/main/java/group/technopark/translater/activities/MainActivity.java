@@ -15,8 +15,8 @@ public class MainActivity extends Activity implements FragmentController {
 
     private SplashScreen splashScreen = new SplashScreen();
 
-    public static ArrayList<LanguageElement> languages;
-    public static HashMap<LanguageElement, ArrayList<LanguageElement>> langWithDirections;
+    private static ArrayList<LanguageElement> languages;
+    private static HashMap<LanguageElement, ArrayList<LanguageElement>> langWithDirections;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,5 +32,21 @@ public class MainActivity extends Activity implements FragmentController {
         getFragmentManager().beginTransaction()
                 .replace(container, fragment)
                 .commit();
+    }
+
+    public static void setLanguageList(ArrayList<LanguageElement> langList) {
+        languages = langList;
+    }
+
+    public static void setLangToDirMap(HashMap<LanguageElement, ArrayList<LanguageElement>> map) {
+        langWithDirections = map;
+    }
+
+    public static ArrayList<LanguageElement> getLanguages() {
+        return languages;
+    }
+
+    public static HashMap<LanguageElement, ArrayList<LanguageElement>> getLangWithDirections() {
+        return langWithDirections;
     }
 }

@@ -35,42 +35,46 @@ public class ResponseParser {
 
     public static JSONArray getTranslatedText(String response, Context context) {
         JSONArray text = null;
-        try {
-            JSONObject json = new JSONObject(response);
-            text = json.getJSONArray(TEXT);
-        } catch (JSONException e) {
-            showErrMsg(response, context);
-        }
+        if(response != null)
+            try {
+                JSONObject json = new JSONObject(response);
+                text = json.getJSONArray(TEXT);
+            } catch (JSONException e) {
+                showErrMsg(response, context);
+            }
         return text;
     }
 
     public static ArrayList<String> getDirections(String response, Context context) {
         ArrayList<String> directions = null;
-        try {
-            JSONObject json = new JSONObject(response);
-            JSONArray dirs = json.getJSONArray(DIRECTIONS);
-            directions = new ArrayList<String>();
-            for(int i = 0; i < dirs.length(); i++) {
-                directions.add(dirs.getString(i));
+        if(response != null)
+            try {
+                JSONObject json = new JSONObject(response);
+                JSONArray dirs = json.getJSONArray(DIRECTIONS);
+                directions = new ArrayList<String>();
+                for(int i = 0; i < dirs.length(); i++) {
+                    directions.add(dirs.getString(i));
+                }
+            } catch (JSONException e) {
+                showErrMsg(response, context);
             }
-        } catch (JSONException e) {
-            showErrMsg(response, context);
-        }
         return directions;
     }
 
     public static ArrayList<LanguageElement> getLanguages(String response, Context context) {
         ArrayList<LanguageElement> languages = new ArrayList<LanguageElement>();
-        try {
-            JSONObject json = new JSONObject(response);
-            JSONObject langs = json.getJSONObject(LANGUAGES);
-            Iterator<String> iter = langs.keys();
-            while (iter.hasNext()) {
-                String code = iter.next();
-                languages.add(new LanguageElement(langs.getString(code),code));
+        if(response != null) {
+            try {
+                JSONObject json = new JSONObject(response);
+                JSONObject langs = json.getJSONObject(LANGUAGES);
+                Iterator<String> iter = langs.keys();
+                while (iter.hasNext()) {
+                    String code = iter.next();
+                    languages.add(new LanguageElement(langs.getString(code), code));
+                }
+            } catch (JSONException e) {
+                showErrMsg(response, context);
             }
-        } catch (JSONException e) {
-            showErrMsg(response, context);
         }
         return languages;
     }

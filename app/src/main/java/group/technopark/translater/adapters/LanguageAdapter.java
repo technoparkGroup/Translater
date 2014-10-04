@@ -17,7 +17,7 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
 
     public LanguageAdapter(Activity context, int resourceId, ArrayList<LanguageElement> objects) {
         super(context, resourceId, objects);
-        this.array = objects;
+        array = objects;
         inflater = context.getLayoutInflater();
         layoutResource = resourceId;
     }
@@ -70,7 +70,10 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
     }
 
     public void setArray(ArrayList<LanguageElement> elements){
-        array = elements;
+        this.array = new ArrayList<LanguageElement>();
+        this.clear();
+        this.array.addAll(elements);
+        this.addAll(elements);
         notifyDataSetChanged();
     }
 }

@@ -31,7 +31,7 @@ public class LanguagesList extends Fragment implements AdapterView.OnItemClickLi
         View layout = inflater.inflate(R.layout.fragment_languages_list, container, false);
         languages = (ListView)layout.findViewById(R.id.languages_list);
         LanguageAdapter adapter =
-                new LanguageAdapter(getActivity(), R.layout.language_element_list, MainActivity.languages);
+                new LanguageAdapter(getActivity(), R.layout.language_element_list, MainActivity.getLanguages());
         languages.setAdapter(adapter);
         languages.setOnItemClickListener(this);
 
@@ -41,7 +41,7 @@ public class LanguagesList extends Fragment implements AdapterView.OnItemClickLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(LanguagesList.this.getActivity(), TranslateActivity.class);
-        intent.putExtra(SELECTED_LANGUAGE, MainActivity.languages.get(position));
+        intent.putExtra(SELECTED_LANGUAGE, MainActivity.getLanguages().get(position));
         startActivity(intent);
     }
 }

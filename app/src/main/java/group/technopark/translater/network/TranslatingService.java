@@ -6,7 +6,6 @@ import android.content.Intent;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import group.technopark.translater.adapters.LanguageElement;
 import group.technopark.translater.fragments.TranslateFragment;
 
 public class TranslatingService extends IntentService {
@@ -14,7 +13,7 @@ public class TranslatingService extends IntentService {
     public static final String TEXT = "text";
     public static final String ORIGIN = "origin";
     public static final String DESTINATION = "destination";
-    public static final String OUTPUT_VIEW = "output_view";
+
 
     public TranslatingService() {
         super("Translating service");
@@ -22,10 +21,10 @@ public class TranslatingService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        LanguageElement origin = intent.getParcelableExtra(ORIGIN);
-        LanguageElement destination = intent.getParcelableExtra(DESTINATION);
+        String origin = intent.getStringExtra(ORIGIN);
+        String destination = intent.getStringExtra(DESTINATION);
         String text = intent.getStringExtra(TEXT);
-        String response = Helpers.makeRequest(URLMaker.getTranslateUrl(origin.getCode(), destination.getCode(), text));
+        String response = Helpers.makeRequest(URLMaker.getTranslateUrl(origin, destination, text), null);
         JSONArray s = ResponseParser.getTranslatedText(response, this);
         StringBuilder translation = new StringBuilder();
         try {
