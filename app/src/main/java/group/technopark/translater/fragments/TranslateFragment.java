@@ -53,8 +53,8 @@ public class TranslateFragment extends Fragment implements View.OnClickListener{
 
             @Override
             public void afterTextChanged(Editable s) {
-                RequestTask task = new RequestTask(languageElement, new LanguageElement("asd", "ru"), s.toString(),translatedText);
-                task.execute();
+                RequestTask task = new RequestTask(languageElement, new LanguageElement("asd", "ru"),translatedText, TranslateFragment.this.getActivity());
+                task.execute(s.toString());
             }
         });
         if (savedInstanceState != null){
@@ -77,8 +77,8 @@ public class TranslateFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_translate:
-                RequestTask task = new RequestTask(languageElement, new LanguageElement("asd", "ru"), textToTranslate.getText().toString(),translatedText);
-                task.execute();
+                RequestTask task = new RequestTask(languageElement, new LanguageElement("asd", "ru"), translatedText, getActivity());
+                task.execute(textToTranslate.getText().toString());
                 break;
         }
     }

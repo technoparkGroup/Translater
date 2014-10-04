@@ -1,5 +1,6 @@
 package group.technopark.translater.network;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
@@ -16,34 +17,33 @@ import java.net.URL;
 
 import group.technopark.translater.adapters.LanguageElement;
 
-public class RequestTask extends AsyncTask<Void, Void, JSONArray> {
+public class RequestTask extends AsyncTask<String, Void, JSONArray> {
 
     LanguageElement origin;
     LanguageElement destination;
-    String text;
     TextView mTextView;
+    Context mContext;
 
-    public RequestTask(LanguageElement origin, LanguageElement destination, String text, TextView textView) {
+    public RequestTask(LanguageElement origin, LanguageElement destination, TextView textView, Context context) {
         this.origin = origin;
         this.destination = destination;
-        this.text = text;
         mTextView = textView;
+        mContext = context;
     }
 
     @Override
-    protected JSONArray doInBackground(Void... params) {
-        HttpURLConnection connection = null;
-        URLMaker urlMaker = new URLMaker(origin.getCode(), destination.getCode(), text);
+    protected JSONArray doInBackground(String... params) {
+        HttpURLConnection connection;
         JSONArray result = null;
         try {
-            URL url  = new URL(urlMaker.getUrl());
+            URL url  = new URL(URLMaker.getTranslateUrl(origin.getCode(), destination.getCode(), params[0]));
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
             InputStream is = connection.getInputStream();
             String response = getResponse(is);
             is.close();
-            result = (new ResponseParser(response)).getMessage();
+            result = ResponseParser.getTranslatedText(response, mContext);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -69,8 +69,7 @@ public class RequestTask extends AsyncTask<Void, Void, JSONArray> {
 
     }
 
-
-    private String getResponse(InputStream is) throws IOException {
+    public static String getResponse(InputStream is) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(is));
         StringBuilder response = new StringBuilder();
         String nextLine;

@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 
 import group.technopark.translater.R;
 import group.technopark.translater.activities.FragmentController;
-import group.technopark.translater.async_task.LoaderTask;
+import group.technopark.translater.network.LoaderTask;
 
 public class SplashScreen extends Fragment{
 
@@ -33,7 +33,7 @@ public class SplashScreen extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_splash, container, false);
         bar = (ProgressBar)layout.findViewById(R.id.progress_bar);
-        LoaderTask task = new LoaderTask(bar, controller);
+        LoaderTask task = new LoaderTask(bar, controller, getActivity());
         task.execute();
         return layout;
     }
