@@ -39,6 +39,8 @@ public class RequestTask extends AsyncTask<String, Void, JSONArray> {
             URL url  = new URL(URLMaker.getTranslateUrl(origin.getCode(), destination.getCode(), params[0]));
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
+            connection.setRequestProperty("Content-Type",
+                    "application/x-www-form-urlencoded");
             connection.connect();
             InputStream is = connection.getInputStream();
             String response = getResponse(is);
@@ -70,7 +72,7 @@ public class RequestTask extends AsyncTask<String, Void, JSONArray> {
     }
 
     public static String getResponse(InputStream is) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(is));
+        BufferedReader bf = new BufferedReader(new InputStreamReader(is, "UTF-8"));
         StringBuilder response = new StringBuilder();
         String nextLine;
         while ((nextLine = bf.readLine()) != null) {

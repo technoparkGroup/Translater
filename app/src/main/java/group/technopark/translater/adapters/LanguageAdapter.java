@@ -22,8 +22,18 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
         layoutResource = resourceId;
     }
 
+    @Override public View getDropDownView(int position, View cnvtView, ViewGroup prnt) {
+        return getCustomView(position, cnvtView, prnt);
+    }
+
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        return getCustomView(position, convertView, parent);
+    }
+
+    public View getCustomView(int position, View convertView, ViewGroup parent){
         View view = convertView;
         LanguageElementHolder holder;
         if(view == null) {
@@ -47,5 +57,15 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
             return array.get(position);
         }
         return null;
+    }
+
+    public int getPositionByElement(LanguageElement element){
+        for(int i = 0; i < array.size(); i++){
+            LanguageElement el = array.get(i);
+            if (el.getCode().equals(element.getCode())
+                    && el.getTitle().equals(element.getTitle()))
+                return i;
+        }
+        return -1;
     }
 }
