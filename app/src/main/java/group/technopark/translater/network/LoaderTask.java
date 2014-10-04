@@ -5,11 +5,10 @@ import android.os.AsyncTask;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import group.technopark.translater.R;
 import group.technopark.translater.activities.FragmentController;
-import group.technopark.translater.adapters.LanguageElement;
+import group.technopark.translater.activities.MainActivity;
 import group.technopark.translater.fragments.LanguagesList;
 
 public class LoaderTask extends AsyncTask<Void, Integer, Void> {
@@ -30,11 +29,11 @@ public class LoaderTask extends AsyncTask<Void, Integer, Void> {
         mBar.setMax(maxValue);
         String response = Helpers.makeRequest(URLMaker.getLanguageUrl());
         publishProgress(1);
-        ArrayList<LanguageElement> languages = ResponseParser.getLanguages(response, mContext);
+        MainActivity.languages = ResponseParser.getLanguages(response, mContext);
         publishProgress(1);
         ArrayList<String> directions = ResponseParser.getDirections(response, mContext);
         publishProgress(2);
-        HashMap<LanguageElement, ArrayList<LanguageElement>> map = Helpers.createLangToDirectionMap(languages, directions);
+        MainActivity.langWithDirections = Helpers.createLangToDirectionMap(MainActivity.languages, directions);
         publishProgress(3);
         return null;
     }

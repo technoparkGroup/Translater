@@ -68,4 +68,9 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
         }
         return -1;
     }
+
+    public void setArray(ArrayList<LanguageElement> elements){
+        array = elements;
+        notifyDataSetChanged();
+    }
 }

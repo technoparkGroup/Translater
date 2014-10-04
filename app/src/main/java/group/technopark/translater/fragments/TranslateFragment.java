@@ -15,9 +15,8 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import group.technopark.translater.R;
+import group.technopark.translater.activities.MainActivity;
 import group.technopark.translater.adapters.LanguageAdapter;
 import group.technopark.translater.adapters.LanguageElement;
 import group.technopark.translater.network.RequestTask;
@@ -41,7 +40,6 @@ public class TranslateFragment
     private Spinner spinner;
     private CheckBox autoTranslateCheckbox;
 
-    private ArrayList<LanguageElement> languageElements;
     private LanguageAdapter languageAdapter;
 
     @Override
@@ -51,9 +49,6 @@ public class TranslateFragment
         Bundle bundle = getArguments();
         languageFrom = bundle.getParcelable(LanguagesList.SELECTED_LANGUAGE);
 
-        String[] langs = getResources().getStringArray(R.array.lang_title);
-        String[] cods = getResources().getStringArray(R.array.lang_codes);
-        languageElements = LanguageElement.getLangList(langs, cods);
     }
 
     @Override
@@ -68,7 +63,7 @@ public class TranslateFragment
 
         spinner = (Spinner)layout.findViewById(R.id.spinner_select_lang);
         languageAdapter = new LanguageAdapter
-                (getActivity(), R.layout.language_element_list, languageElements);
+                (getActivity(), R.layout.language_element_list, MainActivity.langWithDirections.get(languageFrom));
         spinner.setAdapter(languageAdapter);
         spinner.setOnItemSelectedListener(this);
 
@@ -136,6 +131,7 @@ public class TranslateFragment
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         languageTo = languageAdapter.getElement(position);
+        tryEnableSwap();
     }
 
     @Override
@@ -150,11 +146,23 @@ public class TranslateFragment
         String toTranslate = textToTranslate.getText().toString();
         textToTranslate.setText(translatedText.getText());
         translatedText.setText(toTranslate);
-        int spinnerLanguage = languageAdapter.getPositionByElement(languageTo);
-        if (spinnerLanguage >= 0)
-            spinner.setSelection(spinnerLanguage);
-        else
-            spinner.setSelection(0);
+
+        if (MainActivity.langWithDirections.containsKey(languageFrom)){
+            languageAdapter.setArray(MainActivity.langWithDirections.get(languageFrom));
+            int spinnerLanguage = languageAdapter.getPositionByElement(languageTo);
+            if (spinnerLanguage >= 0)
+                spinner.setSelection(spinnerLanguage);
+            else
+                spinner.setSelection(0);
+        }
+
+
         languageFromTextView.setText(languageFrom.getTitle());
+    }
+
+    public void tryEnableSwap(){
+        if (!MainActivity.langWithDirections.containsKey(languageTo)){
+            swap.setEnabled(false);
+        }
     }
 }
