@@ -25,7 +25,7 @@ public class RequestTask extends AsyncTask<String, Void, JSONArray> {
 
     @Override
     protected JSONArray doInBackground(String... params) {
-        String response = Helpers.makeRequest(URLMaker.getTranslateUrl(origin.getCode(), destination.getCode(), params[0]));
+        String response = Helpers.makeRequest(URLMaker.getTranslateUrl(origin.getCode(), destination.getCode(), params[0]), null);
         return ResponseParser.getTranslatedText(response, mContext);
     }
 
