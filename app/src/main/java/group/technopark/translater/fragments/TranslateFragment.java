@@ -51,6 +51,7 @@ public class TranslateFragment
 
     private LanguageAdapter languageAdapter;
     private MyBroadcastReciever receiver;
+    private ArrayList<LanguageElement> spinnerLanguageListElements = new ArrayList<LanguageElement>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,12 +59,12 @@ public class TranslateFragment
         System.out.print("Fragment onCreate");
         Bundle bundle = getArguments();
         languageFrom = bundle.getParcelable(LanguagesList.SELECTED_LANGUAGE);
-
         receiver = new MyBroadcastReciever(this);
         IntentFilter filter = new IntentFilter(BROADCAST);
         getActivity().registerReceiver(receiver, filter);
+        spinnerLanguageListElements.addAll(MainActivity.getLangWithDirections().get(languageFrom));
         languageAdapter = new LanguageAdapter
-                (getActivity(), R.layout.language_element_list, MainActivity.getLangWithDirections().get(languageFrom));
+                (getActivity(), R.layout.language_element_list, spinnerLanguageListElements);
     }
 
     @Override
@@ -176,11 +177,10 @@ public class TranslateFragment
         String toTranslate = textToTranslate.getText().toString();
         textToTranslate.setText(translatedText.getText());
         translatedText.setText(toTranslate);
+        spinnerLanguageListElements.clear();
+        spinnerLanguageListElements.addAll(MainActivity.getLangWithDirections().get(languageFrom));
+        languageAdapter.notifyDataSetChanged();
 
-        languageAdapter = new LanguageAdapter(
-                getActivity(), R.layout.language_element_list, MainActivity.getLangWithDirections().get(languageFrom));
-        spinner.setAdapter(languageAdapter);
-//        languageAdapter.setArray(MainActivity.langWithDirections.get(languageFrom));
         int spinnerLanguage = languageAdapter.getPositionByElement(languageTo);
         spinner.setSelection(spinnerLanguage);
 
