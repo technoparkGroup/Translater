@@ -120,7 +120,7 @@ public class TranslateFragment
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_translate:
-                RequestTask task = new RequestTask(languageFrom, new LanguageElement("asd", "ru"), translatedText, getActivity());
+                RequestTask task = new RequestTask(languageFrom, languageTo, translatedText, getActivity());
                 task.execute(textToTranslate.getText().toString());
                 break;
             case R.id.swap:
@@ -140,29 +140,27 @@ public class TranslateFragment
     }
 
     public void swapLanguages(){
+        //Если swap был enabled, значит можно менять местами языки
         LanguageElement element = languageFrom;
         languageFrom = languageTo;
         languageTo = element;
+
         String toTranslate = textToTranslate.getText().toString();
         textToTranslate.setText(translatedText.getText());
         translatedText.setText(toTranslate);
 
-        if (MainActivity.langWithDirections.containsKey(languageFrom)){
-            languageAdapter.setArray(MainActivity.langWithDirections.get(languageFrom));
-            int spinnerLanguage = languageAdapter.getPositionByElement(languageTo);
-            if (spinnerLanguage >= 0)
-                spinner.setSelection(spinnerLanguage);
-            else
-                spinner.setSelection(0);
-        }
-
+        languageAdapter.setArray(MainActivity.langWithDirections.get(languageFrom));
+        int spinnerLanguage = languageAdapter.getPositionByElement(languageTo);
+        spinner.setSelection(spinnerLanguage);
 
         languageFromTextView.setText(languageFrom.getTitle());
     }
 
     public void tryEnableSwap(){
-        if (!MainActivity.langWithDirections.containsKey(languageTo)){
-            swap.setEnabled(false);
+        swap.setEnabled(false);
+        if (MainActivity.langWithDirections.containsKey(languageTo)){
+            if (MainActivity.langWithDirections.get(languageTo).contains(languageFrom))
+                swap.setEnabled(true);
         }
     }
 }
