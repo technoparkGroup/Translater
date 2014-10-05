@@ -12,14 +12,12 @@ import java.util.Collections;
 import group.technopark.translater.R;
 
 public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageElement> {
-    ArrayList<LanguageElement> array = new ArrayList<LanguageElement>();
     int layoutResource;
     LayoutInflater inflater;
 
     public LanguageAdapter(Activity context, int resourceId, ArrayList<LanguageElement> objects) {
         super(context, resourceId, objects);
-        array = objects;
-        Collections.sort(array);
+        Collections.sort(objects);
         inflater = context.getLayoutInflater();
         layoutResource = resourceId;
     }
@@ -49,20 +47,20 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
             holder = (LanguageElementHolder) convertView.getTag();
         }
         TextView holderView = holder.getView();
-        holderView.setText(array.get(position).getTitle());
+        holderView.setText(this.getItem(position).getTitle());
         return view;
     }
 
     public LanguageElement getElement(int position) {
         if (position >= 0) {
-            return array.get(position);
+            return getItem(position);
         }
         return null;
     }
 
     public int getPositionByElement(LanguageElement element) {
-        for (int i = 0; i < array.size(); i++) {
-            LanguageElement el = array.get(i);
+        for (int i = 0; i < this.getCount(); i++) {
+            LanguageElement el = getItem(i);
             if (el.getCode().equals(element.getCode())
                     && el.getTitle().equals(element.getTitle()))
                 return i;
@@ -72,7 +70,8 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
 
     public void changeArray(ArrayList<LanguageElement> newArray) {
         Collections.sort(newArray);
-        array = newArray;
+        this.clear();
+        this.addAll(newArray);
         notifyDataSetChanged();
     }
 

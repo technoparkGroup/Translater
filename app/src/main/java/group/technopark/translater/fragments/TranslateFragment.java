@@ -67,7 +67,7 @@ public class TranslateFragment
                 (getActivity(), R.layout.language_element_list, new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().keySet()));
 
         destinationLanguageAdapter = new LanguageAdapter
-                (getActivity(), R.layout.language_element_list, MainActivity.getLangWithDirections().get(languageFrom));
+                (getActivity(), R.layout.language_element_list, new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().get(languageFrom)));
     }
 
     @Override
@@ -109,9 +109,9 @@ public class TranslateFragment
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 languageFrom = originLanguageAdapter.getElement(position);
-                ArrayList<LanguageElement> list = MainActivity.getLangWithDirections().get(languageFrom);
+                ArrayList<LanguageElement> list = new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().get(languageFrom));
                 destinationLanguageAdapter.changeArray(list);
-                destinationLanguage.setSelection(0);
+                //destinationLanguage.setSelection(0);
             }
 
             @Override
@@ -194,7 +194,7 @@ public class TranslateFragment
         textToTranslate.setText(translatedText.getText());
         translatedText.setText(toTranslate);
 
-        destinationLanguageAdapter.changeArray(MainActivity.getLangWithDirections().get(languageFrom));
+        destinationLanguageAdapter.changeArray(new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().get(languageFrom)));
 
         int spinnerLanguage = destinationLanguageAdapter.getPositionByElement(languageTo);
         destinationLanguage.setSelection(spinnerLanguage);
@@ -206,8 +206,9 @@ public class TranslateFragment
 
     public void tryEnableSwap(){
         swapBtn.setVisibility(View.INVISIBLE);
-        ArrayList<LanguageElement> languageElements = MainActivity.getLangWithDirections().get(languageTo);
-        if(languageElements != null && languageElements.contains(languageFrom))
+        //Nullp
+        ArrayList<LanguageElement> languageElements = new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().get(languageTo));
+        if(languageElements.contains(languageFrom))
             swapBtn.setVisibility(View.VISIBLE);
     }
 
