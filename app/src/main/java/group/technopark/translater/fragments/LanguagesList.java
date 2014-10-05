@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import group.technopark.translater.R;
 import group.technopark.translater.activities.MainActivity;
@@ -32,6 +33,7 @@ public class LanguagesList extends Fragment implements AdapterView.OnItemClickLi
         View layout = inflater.inflate(R.layout.fragment_languages_list, container, false);
         languages = (ListView)layout.findViewById(R.id.languages_list);
         languageElements = new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().keySet());
+        Collections.sort(languageElements);
         LanguageAdapter adapter =
                 new LanguageAdapter(getActivity(), R.layout.language_element_list,
                         languageElements);

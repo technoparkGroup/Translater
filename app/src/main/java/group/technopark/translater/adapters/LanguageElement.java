@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class LanguageElement implements Parcelable{
+public class LanguageElement implements Parcelable, Comparable{
     private String title;
     private String code;
 
@@ -80,5 +80,14 @@ public class LanguageElement implements Parcelable{
         int result = title.hashCode();
         result = 31 * result + code.hashCode();
         return result;
+    }
+
+    @Override
+    public int compareTo(Object another) {
+        int titlesComparison = this.title.compareTo(((LanguageElement)another).title);
+        if(titlesComparison == 0) {
+            return this.code.compareTo(((LanguageElement)another).code);
+        } else
+            return titlesComparison;
     }
 }

@@ -17,7 +17,6 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
 
     public LanguageAdapter(Activity context, int resourceId, ArrayList<LanguageElement> objects) {
         super(context, resourceId, objects);
-//        array.addAll(objects);
         array = objects;
         inflater = context.getLayoutInflater();
         layoutResource = resourceId;

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import group.technopark.translater.R;
 import group.technopark.translater.activities.FragmentController;
 import group.technopark.translater.activities.MainActivity;
+import group.technopark.translater.adapters.LanguageElement;
 import group.technopark.translater.fragments.LanguagesList;
 
 public class LoaderTask extends AsyncTask<Void, Integer, Void> implements Helpers.ProgressUpdater {
@@ -26,11 +27,11 @@ public class LoaderTask extends AsyncTask<Void, Integer, Void> implements Helper
     protected Void doInBackground(Void... params) {
         setProgress(0, 3);
         String response = Helpers.makeRequest(URLMaker.getLanguageUrl(), this);
-        MainActivity.setLanguageList(ResponseParser.getLanguages(response, mContext));
+        ArrayList<LanguageElement> languages = ResponseParser.getLanguages(response, mContext);
         publishProgress(1);
         ArrayList<String> directions = ResponseParser.getDirections(response, mContext);
         publishProgress(2);
-        MainActivity.setLangToDirMap(Helpers.createLangToDirectionMap(MainActivity.getLanguages(), directions));
+        MainActivity.setLangToDirMap(Helpers.createLangToDirectionMap(languages, directions));
         publishProgress(3);
 
         return null;
