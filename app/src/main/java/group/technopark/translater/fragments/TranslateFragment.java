@@ -53,6 +53,8 @@ public class TranslateFragment
     private MyBroadcastReciever receiver;
     private ArrayList<LanguageElement> spinnerLanguageListElements = new ArrayList<LanguageElement>();
 
+    private Intent serviceIntent;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +111,10 @@ public class TranslateFragment
             @Override
             public void afterTextChanged(Editable s) {
                 if (autoTranslateCheckbox.isChecked()) {
-                    Intent serviceIntent = new Intent(getActivity(), TranslatingService.class);
+                    if (serviceIntent != null) {
+                        getActivity().stopService(serviceIntent);
+                    }
+                    serviceIntent = new Intent(getActivity(), TranslatingService.class);
                     serviceIntent.putExtra(TranslatingService.TEXT, s.toString())
                             .putExtra(TranslatingService.DESTINATION, languageTo.getCode())
                             .putExtra(TranslatingService.ORIGIN, languageFrom.getCode());
