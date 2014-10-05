@@ -50,14 +50,6 @@ public class Helpers {
             response.append(nextLine);
         }
 
-//        byte[] response = new byte[.available()];
-//        int line;
-//        while ((line = is.read(response, progress, 80)) != 0){
-//            progress += line;
-//            if (updater != null)
-//                updater.setProgress(progress, max);
-//        }
-
         return new String(response);
     }
 
@@ -81,11 +73,6 @@ public class Helpers {
             }
         }
         return langsToDiriections;
-    }
-
-    private void updateProgress(ProgressUpdater updater, int progress, int max){
-        if (updater != null)
-            updater.setProgress(progress, max);
     }
 
     public interface ProgressUpdater {

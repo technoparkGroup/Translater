@@ -29,7 +29,7 @@ import group.technopark.translater.network.TranslatingService;
 
 public class TranslateFragment
         extends Fragment
-        implements View.OnClickListener, AdapterView.OnItemSelectedListener, MyBroadcastReciever.TextViewSetter{
+        implements View.OnClickListener, MyBroadcastReciever.TextViewSetter{
 
     public static final String LANGUAGE_ELEMENT_FROM = "language_element_from";
     public static final String LANGUAGE_ELEMENT_TO = "language_element_to";
@@ -49,9 +49,9 @@ public class TranslateFragment
     private Spinner destinationLanguage;
     private CheckBox autoTranslateCheckbox;
 
-    private LanguageAdapter languageAdapter;
+    private LanguageAdapter destinationLanguageAdapter;
+    private LanguageAdapter originLanguageAdapter;
     private MyBroadcastReciever receiver;
-    private ArrayList<LanguageElement> spinnerLanguageListElements = new ArrayList<LanguageElement>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,9 +62,12 @@ public class TranslateFragment
         receiver = new MyBroadcastReciever(this);
         IntentFilter filter = new IntentFilter(BROADCAST);
         getActivity().registerReceiver(receiver, filter);
-        spinnerLanguageListElements.addAll(MainActivity.getLangWithDirections().get(languageFrom));
-        languageAdapter = new LanguageAdapter
-                (getActivity(), R.layout.language_element_list, spinnerLanguageListElements);
+
+        originLanguageAdapter = new LanguageAdapter
+                (getActivity(), R.layout.language_element_list, new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().keySet()));
+
+        destinationLanguageAdapter = new LanguageAdapter
+                (getActivity(), R.layout.language_element_list, MainActivity.getLangWithDirections().get(languageFrom));
     }
 
     @Override
@@ -72,21 +75,52 @@ public class TranslateFragment
         super.onDestroy();
         if(getActivity() != null)
             getActivity().unregisterReceiver(receiver);
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_translate, container, false);
+
         translate = (Button)layout.findViewById(R.id.btn_translate);
         translate.setOnClickListener(this);
+
         swapBtn = (ImageButton)layout.findViewById(R.id.swap);
         swapBtn.setOnClickListener(this);
+
         destinationLanguage = (Spinner)layout.findViewById(R.id.spinner_destination_lang);
-        destinationLanguage.setAdapter(languageAdapter);
-        destinationLanguage.setOnItemSelectedListener(this);
+        destinationLanguage.setAdapter(destinationLanguageAdapter);
+        destinationLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                languageTo = destinationLanguageAdapter.getElement(position);
+                tryEnableSwap();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        destinationLanguage.setSelection(0);
+
         originLanguage = (Spinner)layout.findViewById(R.id.spinner_origin_lang);
+        originLanguage.setAdapter(originLanguageAdapter);
+        originLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                languageFrom = originLanguageAdapter.getElement(position);
+                ArrayList<LanguageElement> list = MainActivity.getLangWithDirections().get(languageFrom);
+                destinationLanguageAdapter.changeArray(list);
+                destinationLanguage.setSelection(0);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        originLanguage.setSelection(originLanguageAdapter.getPosition(languageFrom));
+
         autoTranslateCheckbox = (CheckBox)layout.findViewById(R.id.auto_translate);
         languageTo = (LanguageElement) destinationLanguage.getSelectedItem();
         tryEnableSwap();
@@ -116,21 +150,20 @@ public class TranslateFragment
         });
 
         if (savedInstanceState != null){
-            languageFrom = savedInstanceState.getParcelable(LANGUAGE_ELEMENT_FROM);
-            textToTranslate.setText(savedInstanceState.getString(TEXT_TO_TRANSLATE));
+//            languageFrom = savedInstanceState.getParcelable(LANGUAGE_ELEMENT_FROM);
+//            textToTranslate.setText(savedInstanceState.getString(TEXT_TO_TRANSLATE));
             translatedText.setText(savedInstanceState.getString(TRANSLATED_TEXT));
-            languageTo = savedInstanceState.getParcelable(LANGUAGE_ELEMENT_TO);
+//            languageTo = savedInstanceState.getParcelable(LANGUAGE_ELEMENT_TO);
         }
-
         return layout;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(LANGUAGE_ELEMENT_FROM, languageFrom);
-        outState.putString(TEXT_TO_TRANSLATE, textToTranslate.getText().toString());
+//        outState.putParcelable(LANGUAGE_ELEMENT_FROM, languageFrom);
+//        outState.putString(TEXT_TO_TRANSLATE, textToTranslate.getText().toString());
         outState.putString(TRANSLATED_TEXT, translatedText.getText().toString());
-        outState.putParcelable(LANGUAGE_ELEMENT_TO, languageTo);
+//        outState.putParcelable(LANGUAGE_ELEMENT_TO, languageTo);
         super.onSaveInstanceState(outState);
     }
 
@@ -149,43 +182,33 @@ public class TranslateFragment
         }
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        languageTo = languageAdapter.getElement(position);
-        tryEnableSwap();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
     public void swapLanguages(){
         //Если swapBtn был enabled, значит можно менять местами языки
         LanguageElement element = languageFrom;
         languageFrom = languageTo;
         languageTo = element;
 
+
+        //меняем местами тексты
         String toTranslate = textToTranslate.getText().toString();
         textToTranslate.setText(translatedText.getText());
         translatedText.setText(toTranslate);
-        spinnerLanguageListElements.clear();
-        spinnerLanguageListElements.addAll(MainActivity.getLangWithDirections().get(languageFrom));
-        languageAdapter.notifyDataSetChanged();
 
-        int spinnerLanguage = languageAdapter.getPositionByElement(languageTo);
+        destinationLanguageAdapter.changeArray(MainActivity.getLangWithDirections().get(languageFrom));
+
+        int spinnerLanguage = destinationLanguageAdapter.getPositionByElement(languageTo);
         destinationLanguage.setSelection(spinnerLanguage);
+        spinnerLanguage = originLanguageAdapter.getPositionByElement(languageFrom);
+        originLanguage.setSelection(spinnerLanguage);
 
         tryEnableSwap();
     }
 
     public void tryEnableSwap(){
         swapBtn.setVisibility(View.INVISIBLE);
-        if (MainActivity.getLangWithDirections().containsKey(languageTo)){
-            ArrayList<LanguageElement> languageElements = MainActivity.getLangWithDirections().get(languageTo);
-            if (languageElements.contains(languageFrom))
-                swapBtn.setVisibility(View.VISIBLE);
-        }
+        ArrayList<LanguageElement> languageElements = MainActivity.getLangWithDirections().get(languageTo);
+        if(languageElements != null && languageElements.contains(languageFrom))
+            swapBtn.setVisibility(View.VISIBLE);
     }
 
     @Override

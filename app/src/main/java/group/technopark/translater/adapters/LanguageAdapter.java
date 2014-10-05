@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import group.technopark.translater.R;
 
@@ -18,6 +19,7 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
     public LanguageAdapter(Activity context, int resourceId, ArrayList<LanguageElement> objects) {
         super(context, resourceId, objects);
         array = objects;
+        Collections.sort(array);
         inflater = context.getLayoutInflater();
         layoutResource = resourceId;
     }
@@ -66,6 +68,12 @@ public class LanguageAdapter  extends android.widget.ArrayAdapter <LanguageEleme
                 return i;
         }
         return -1;
+    }
+
+    public void changeArray(ArrayList<LanguageElement> newArray) {
+        Collections.sort(newArray);
+        array = newArray;
+        notifyDataSetChanged();
     }
 
 }

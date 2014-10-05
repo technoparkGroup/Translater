@@ -28,12 +28,8 @@ public class LoaderTask extends AsyncTask<Void, Integer, Void> implements Helper
         setProgress(0, 3);
         String response = Helpers.makeRequest(URLMaker.getLanguageUrl(), this);
         ArrayList<LanguageElement> languages = ResponseParser.getLanguages(response, mContext);
-        publishProgress(1);
         ArrayList<String> directions = ResponseParser.getDirections(response, mContext);
-        publishProgress(2);
         MainActivity.setLangToDirMap(Helpers.createLangToDirectionMap(languages, directions));
-        publishProgress(3);
-
         return null;
     }
 
