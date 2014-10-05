@@ -42,18 +42,16 @@ public class TranslateFragment
     private LanguageElement languageFrom;
     private LanguageElement languageTo;
     private Button translate;
-    private ImageButton swap;
+    private ImageButton swapBtn;
     private TextView translatedText;
     private EditText textToTranslate;
-    private TextView languageFromTextView;
-    private Spinner spinner;
+    private Spinner originLanguage;
+    private Spinner destinationLanguage;
     private CheckBox autoTranslateCheckbox;
 
     private LanguageAdapter languageAdapter;
     private MyBroadcastReciever receiver;
     private ArrayList<LanguageElement> spinnerLanguageListElements = new ArrayList<LanguageElement>();
-
-    private Intent serviceIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,19 +81,16 @@ public class TranslateFragment
         View layout = inflater.inflate(R.layout.fragment_translate, container, false);
         translate = (Button)layout.findViewById(R.id.btn_translate);
         translate.setOnClickListener(this);
-        swap = (ImageButton)layout.findViewById(R.id.swap);
-        swap.setOnClickListener(this);
-        spinner = (Spinner)layout.findViewById(R.id.spinner_select_lang);
-
-        spinner.setAdapter(languageAdapter);
-        spinner.setOnItemSelectedListener(this);
-
-        languageTo = (LanguageElement)spinner.getSelectedItem();
-
+        swapBtn = (ImageButton)layout.findViewById(R.id.swap);
+        swapBtn.setOnClickListener(this);
+        destinationLanguage = (Spinner)layout.findViewById(R.id.spinner_destination_lang);
+        destinationLanguage.setAdapter(languageAdapter);
+        destinationLanguage.setOnItemSelectedListener(this);
+        originLanguage = (Spinner)layout.findViewById(R.id.spinner_origin_lang);
+        autoTranslateCheckbox = (CheckBox)layout.findViewById(R.id.auto_translate);
+        languageTo = (LanguageElement) destinationLanguage.getSelectedItem();
         tryEnableSwap();
-
         translatedText = (TextView)layout.findViewById(R.id.translated_text);
-
         textToTranslate = (EditText)layout.findViewById(R.id.text_to_translate);
         textToTranslate.addTextChangedListener(new TextWatcher() {
             @Override
@@ -111,10 +106,7 @@ public class TranslateFragment
             @Override
             public void afterTextChanged(Editable s) {
                 if (autoTranslateCheckbox.isChecked()) {
-                    if (serviceIntent != null) {
-                        getActivity().stopService(serviceIntent);
-                    }
-                    serviceIntent = new Intent(getActivity(), TranslatingService.class);
+                    Intent serviceIntent = new Intent(getActivity(), TranslatingService.class);
                     serviceIntent.putExtra(TranslatingService.TEXT, s.toString())
                             .putExtra(TranslatingService.DESTINATION, languageTo.getCode())
                             .putExtra(TranslatingService.ORIGIN, languageFrom.getCode());
@@ -122,11 +114,6 @@ public class TranslateFragment
                 }
             }
         });
-
-        languageFromTextView = (TextView)layout.findViewById(R.id.origin_language);
-        languageFromTextView.setText(languageFrom.getTitle());
-
-        autoTranslateCheckbox = (CheckBox)layout.findViewById(R.id.auto_translate);
 
         if (savedInstanceState != null){
             languageFrom = savedInstanceState.getParcelable(LANGUAGE_ELEMENT_FROM);
@@ -174,7 +161,7 @@ public class TranslateFragment
     }
 
     public void swapLanguages(){
-        //Если swap был enabled, значит можно менять местами языки
+        //Если swapBtn был enabled, значит можно менять местами языки
         LanguageElement element = languageFrom;
         languageFrom = languageTo;
         languageTo = element;
@@ -187,19 +174,17 @@ public class TranslateFragment
         languageAdapter.notifyDataSetChanged();
 
         int spinnerLanguage = languageAdapter.getPositionByElement(languageTo);
-        spinner.setSelection(spinnerLanguage);
-
-        languageFromTextView.setText(languageFrom.getTitle());
+        destinationLanguage.setSelection(spinnerLanguage);
 
         tryEnableSwap();
     }
 
     public void tryEnableSwap(){
-        swap.setVisibility(View.INVISIBLE);
+        swapBtn.setVisibility(View.INVISIBLE);
         if (MainActivity.getLangWithDirections().containsKey(languageTo)){
             ArrayList<LanguageElement> languageElements = MainActivity.getLangWithDirections().get(languageTo);
             if (languageElements.contains(languageFrom))
-                swap.setVisibility(View.VISIBLE);
+                swapBtn.setVisibility(View.VISIBLE);
         }
     }
 
