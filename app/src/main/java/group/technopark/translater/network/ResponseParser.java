@@ -35,7 +35,7 @@ public class ResponseParser {
                 JSONObject json = new JSONObject(response);
                 text = json.getJSONArray(Constants.RESPONSE_TEXT);
             } catch (JSONException e) {
-                showErrMsg(response, context);
+//                showErrMsg(response, context);
             }
         return text;
     }
@@ -51,7 +51,7 @@ public class ResponseParser {
                     directions.add(dirs.getString(i));
                 }
             } catch (JSONException e) {
-                showErrMsg(response, context);
+//                showErrMsg(response, context);
             }
         return directions;
     }
@@ -68,7 +68,7 @@ public class ResponseParser {
                     languages.add(new LanguageElement(langs.getString(code), code));
                 }
             } catch (JSONException e) {
-                showErrMsg(response, context);
+//                showErrMsg(response, context);
             }
         }
         return languages;

@@ -17,12 +17,17 @@ public class MyBroadcastReciever extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String text = intent.getStringExtra(Constants.BUNDLE_TEXT);
-        if(text != null)
-            mCallback.setText(text);
+        int code = intent.getIntExtra(Constants.BUNDLE_CODE, Constants.CODE_FAIL);
+        if(code == Constants.CODE_OK) {
+            String text = intent.getStringExtra(Constants.BUNDLE_TEXT);
+            if (text != null)
+                mCallback.setText(text);
+        } else
+            mCallback.notifyError();
     }
 
     public interface TextViewSetter {
         void setText(String text);
+        void notifyError();
     }
 }

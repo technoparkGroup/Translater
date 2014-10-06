@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -227,5 +228,12 @@ public class TranslateFragment
     public void setText(String text) {
         if(translatedText != null)
             translatedText.setText(text);
+    }
+
+    @Override
+    public void notifyError() {
+        if(getActivity() != null) {
+            Toast.makeText(getActivity(), "Произошла ошибка", Toast.LENGTH_SHORT).show();
+        }
     }
 }

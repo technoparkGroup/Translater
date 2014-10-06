@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import group.technopark.translater.Constants;
 import group.technopark.translater.adapters.LanguageElement;
 
 public class Helpers {
@@ -30,6 +31,7 @@ public class Helpers {
         } catch (ProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            response = Constants.ERROR_RESPONSE;
             e.printStackTrace();
         }
         return response;

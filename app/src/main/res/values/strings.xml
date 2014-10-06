@@ -7,7 +7,7 @@
     <string name="auto_translate">Auto Translate</string>
     <string name="translate">Translate</string>
     <string name="swap_button_content_description">swap language</string>
-    <string name="empty_list">Список пуст</string>
+    <string name="empty_list">Список пуст. Проверьте подключение к сети.</string>
     <string name="logo_content_description">logo_content</string>
 
     <array name="lang_codes">

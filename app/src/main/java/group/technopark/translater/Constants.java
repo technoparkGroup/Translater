@@ -2,12 +2,15 @@ package group.technopark.translater;
 
 public class Constants {
 
+    public static final String ERROR_RESPONSE = "error";
+
     public static final String RESPONSE_CODE = "code";
     public static final String RESPONSE_TEXT = "text";
     public static final String RESPONSE_DIRECTIONS = "dirs";
     public static final String RESPONSE_LANGUAGES = "langs";
     public static final String RESPONSE_MESSAGE = "message";
 
+    public static final String BUNDLE_CODE = "code";
     public static final String BUNDLE_TEXT = "text";
     public static final String BUNDLE_ORIGIN = "origin";
     public static final String BUNDLE_DESTINATION = "destination";
@@ -21,4 +24,8 @@ public class Constants {
 
     public static final String LANGUAGES_LIST_FRAGMENT_TAG = "languages_list_fragment";
     public static final String TRANSLATE_FRAGMENT_TAG = "translate_fragment";
+
+    public static final int CODE_OK = 200;
+    public static final int CODE_FAIL = 500;
+
 }
