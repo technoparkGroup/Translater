@@ -34,8 +34,6 @@ public class MainActivity extends Activity implements FragmentController {
         getFragmentManager().beginTransaction()
                 .replace(container, fragment, tag)
                 .commit();
-
-
     }
 
     @Override
@@ -57,11 +55,11 @@ public class MainActivity extends Activity implements FragmentController {
             return;
         }
 
-        fragment = getFragmentManager().findFragmentByTag("SPLASH");
+        fragment = getFragmentManager().findFragmentByTag(Constants.SPLASH_FRAGMENT_TAG);
         if (fragment != null){
-            setFragment(R.id.container, fragment, "SPLASH", false);
+            setFragment(R.id.container, fragment, Constants.SPLASH_FRAGMENT_TAG, false);
         }else
-            setFragment(R.id.container, new SplashScreen(), "SPLASH", false);
+            setFragment(R.id.container, new SplashScreen(), Constants.SPLASH_FRAGMENT_TAG, false);
     }
 
     public static void setLangToDirMap(HashMap<LanguageElement, ArrayList<LanguageElement>> map) {
