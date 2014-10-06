@@ -3,6 +3,8 @@ package group.technopark.translater.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,7 @@ public class SplashScreen extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_splash, container, false);
         bar = (ProgressBar)layout.findViewById(R.id.progress_bar);
+        bar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
         LoaderTask task = new LoaderTask(bar, controller, getActivity());
         task.execute();
         return layout;
