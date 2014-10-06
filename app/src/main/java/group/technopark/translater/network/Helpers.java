@@ -36,21 +36,16 @@ public class Helpers {
     }
 
     public static String getResponse(InputStream is, ProgressUpdater updater) throws IOException {
-        int progress = 0;
-        int max = is.available();
-        if (updater != null)
-            updater.setProgress(progress, max);
-        BufferedReader bf = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-        StringBuilder response = new StringBuilder();
         String nextLine;
+        InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+        BufferedReader bf = new BufferedReader(isr);
+
+        StringBuilder response = new StringBuilder();
         while ((nextLine = bf.readLine()) != null) {
-            progress += nextLine.length();
-            if (updater != null)
-                updater.setProgress(progress, max);
             response.append(nextLine);
         }
 
-        return new String(response);
+        return response.toString();
     }
 
     public static HashMap<LanguageElement, ArrayList<LanguageElement>> createLangToDirectionMap(ArrayList<LanguageElement> languages, ArrayList<String> directions) {
@@ -76,7 +71,7 @@ public class Helpers {
     }
 
     public interface ProgressUpdater {
-        public void setProgress(int progress, int max);
+        public void setProgress(int progress);
     }
 
 }

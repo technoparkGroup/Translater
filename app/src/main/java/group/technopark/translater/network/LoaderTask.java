@@ -17,6 +17,8 @@ public class LoaderTask extends AsyncTask<Void, Integer, Void> implements Helper
     private ProgressBar mBar;
     private FragmentController mCallback;
     private Context mContext;
+    private int maxProgress;
+    private int progress;
 
     public LoaderTask(ProgressBar bar, FragmentController callback, Context context) {
         mBar = bar;
@@ -26,28 +28,54 @@ public class LoaderTask extends AsyncTask<Void, Integer, Void> implements Helper
 
     @Override
     protected Void doInBackground(Void... params) {
-        setProgress(0, 3);
-        String response = Helpers.makeRequest(URLMaker.getLanguageUrl(), this);
-        ArrayList<LanguageElement> languages = ResponseParser.getLanguages(response, mContext);
-        ArrayList<String> directions = ResponseParser.getDirections(response, mContext);
-        MainActivity.setLangToDirMap(Helpers.createLangToDirectionMap(languages, directions));
+        try{
+            maxProgress = 4;
+            String response = Helpers.makeRequest(URLMaker.getLanguageUrl(), this);
+            setProgress(1);
+            Thread.sleep(2000);
+            ArrayList<LanguageElement> languages = ResponseParser.getLanguages(response, mContext);
+            setProgress(2);
+            Thread.sleep(2000);
+            ArrayList<String> directions = ResponseParser.getDirections(response, mContext);
+            setProgress(3);
+            Thread.sleep(2000);
+            MainActivity.setLangToDirMap(Helpers.createLangToDirectionMap(languages, directions));
+            setProgress(4);
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
-        mBar.setProgress(values[0]);
+        if (mBar != null)
+            mBar.setProgress(values[0]);
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        mCallback.setFragment(R.id.container, new LanguagesList(), Constants.LANGUAGES_LIST_FRAGMENT_TAG, false);
+        if (mCallback != null) {
+            mCallback.setFragment(R.id.container, new LanguagesList(), Constants.LANGUAGES_LIST_FRAGMENT_TAG, false);
+        }
     }
 
-    public void setProgress(int progress, int max){
-        mBar.setMax(max);
-        mBar.setProgress(progress);
+    public void setProgress(int p){
+        progress = p;
+        if (mBar != null) {
+            mBar.setMax(maxProgress);
+            mBar.setProgress(progress);
+        }
+    }
+
+    public void setController(FragmentController controller){
+        this.mCallback = controller;
+    }
+
+    public void setProgressBar(ProgressBar bar){
+        mBar = bar;
+        setProgress(progress);
     }
 }

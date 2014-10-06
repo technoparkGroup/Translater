@@ -56,7 +56,12 @@ public class MainActivity extends Activity implements FragmentController {
             setFragment(R.id.container, fragment, Constants.LANGUAGES_LIST_FRAGMENT_TAG, false);
             return;
         }
-        setFragment(R.id.container, new SplashScreen(), "", false);
+
+        fragment = getFragmentManager().findFragmentByTag("SPLASH");
+        if (fragment != null){
+            setFragment(R.id.container, fragment, "SPLASH", false);
+        }else
+            setFragment(R.id.container, new SplashScreen(), "SPLASH", false);
     }
 
     public static void setLangToDirMap(HashMap<LanguageElement, ArrayList<LanguageElement>> map) {
