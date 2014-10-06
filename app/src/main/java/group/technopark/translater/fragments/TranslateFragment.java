@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,7 @@ public class TranslateFragment
     private Spinner originLanguage;
     private Spinner destinationLanguage;
     private CheckBox autoTranslateCheckbox;
+    private ProgressBar translateProgress;
 
     private LanguageAdapter destinationLanguageAdapter;
     private LanguageAdapter originLanguageAdapter;
@@ -80,6 +82,8 @@ public class TranslateFragment
 
         translate = (Button)layout.findViewById(R.id.btn_translate);
         translate.setOnClickListener(this);
+        translateProgress = (ProgressBar)layout.findViewById(R.id.translate_progress);
+        translateProgress.setVisibility(View.INVISIBLE);
 
         swapBtn = (ImageButton)layout.findViewById(R.id.swap);
         swapBtn.setOnClickListener(this);
@@ -190,6 +194,10 @@ public class TranslateFragment
                              .putExtra(Constants.BUNDLE_DESTINATION, languageTo.getCode())
                              .putExtra(Constants.BUNDLE_ORIGIN, languageFrom.getCode());
                 getActivity().startService(serviceIntent);
+
+                translateProgress.setVisibility(View.VISIBLE);
+                translatedText.setText("");
+
                 break;
             case R.id.swap:
                 swapLanguages();
@@ -226,8 +234,11 @@ public class TranslateFragment
 
     @Override
     public void setText(String text) {
-        if(translatedText != null)
+        if(translatedText != null) {
+            if (translateProgress != null)
+                translateProgress.setVisibility(View.INVISIBLE);
             translatedText.setText(text);
+        }
     }
 
     @Override

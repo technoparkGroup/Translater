@@ -56,11 +56,21 @@
         android:layout_marginTop="10dp"
         android:layout_below="@id/languages_ll"/>
 
+    <ProgressBar
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/translate_progress"
+        android:layout_below="@id/languages_ll"
+        android:layout_toLeftOf="@id/auto_translate"
+        android:layout_toStartOf="@id/auto_translate"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_below="@id/auto_translate">
+        android:layout_below="@id/translate_progress">
 
         <EditText
             android:layout_marginTop="10dp"
@@ -86,7 +96,9 @@
             android:layout_weight="1"
             android:layout_margin="10dp"/>
 
-        </LinearLayout>
+
+
+    </LinearLayout>
 
 
 </RelativeLayout>
