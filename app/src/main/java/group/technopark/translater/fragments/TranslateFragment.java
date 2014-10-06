@@ -2,8 +2,10 @@ package group.technopark.translater.fragments;
 
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -37,6 +40,8 @@ public class TranslateFragment
     public static final String TRANSLATED_TEXT = "translated_text";
 
     public static final String BROADCAST = "my_broadcast_action";
+    public static final String SHARED_PREFS = "translate_shared_prefs";
+    public static final String AUTO_TRANSLATE_PREFS = "auto_translate";
 
 
     private LanguageElement languageFrom;
@@ -122,6 +127,15 @@ public class TranslateFragment
         originLanguage.setSelection(originLanguageAdapter.getPosition(languageFrom));
 
         autoTranslateCheckbox = (CheckBox)layout.findViewById(R.id.auto_translate);
+        final SharedPreferences preferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        boolean isAutoTranslate = preferences.getBoolean(AUTO_TRANSLATE_PREFS, false);
+        autoTranslateCheckbox.setChecked(isAutoTranslate);
+        autoTranslateCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                preferences.edit().putBoolean(AUTO_TRANSLATE_PREFS, isChecked).apply();
+            }
+        });
         languageTo = (LanguageElement) destinationLanguage.getSelectedItem();
         tryEnableSwap();
         translatedText = (TextView)layout.findViewById(R.id.translated_text);
