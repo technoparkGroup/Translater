@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import group.technopark.translater.Constants;
 import group.technopark.translater.R;
 import group.technopark.translater.activities.MainActivity;
 import group.technopark.translater.adapters.LanguageAdapter;
@@ -18,7 +19,6 @@ import group.technopark.translater.adapters.LanguageElement;
 
 
 public class LanguagesList extends Fragment implements AdapterView.OnItemClickListener{
-    public static final String SELECTED_LANGUAGE = "selected_language";
     private ListView languages;
     private LanguageAdapter adapter;
 
@@ -43,11 +43,11 @@ public class LanguagesList extends Fragment implements AdapterView.OnItemClickLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(LanguagesList.SELECTED_LANGUAGE, adapter.getElement(position));
+        bundle.putParcelable(Constants.BUNDLE_ORIGIN, adapter.getElement(position));
         TranslateFragment translateFragment = new TranslateFragment();
         translateFragment.setArguments(bundle);
         ((MainActivity) getActivity()).
-                setFragment(R.id.container, translateFragment, MainActivity.TRANSLATE_FRAGMENT_TAG, true);
+                setFragment(R.id.container, translateFragment, Constants.TRANSLATE_FRAGMENT_TAG, true);
 
     }
 }

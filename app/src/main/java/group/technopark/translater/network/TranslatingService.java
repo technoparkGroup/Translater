@@ -6,14 +6,9 @@ import android.content.Intent;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import group.technopark.translater.fragments.TranslateFragment;
+import group.technopark.translater.Constants;
 
 public class TranslatingService extends IntentService {
-
-    public static final String TEXT = "text";
-    public static final String ORIGIN = "origin";
-    public static final String DESTINATION = "destination";
-
 
     public TranslatingService() {
         super("Translating service");
@@ -21,9 +16,9 @@ public class TranslatingService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        String origin = intent.getStringExtra(ORIGIN);
-        String destination = intent.getStringExtra(DESTINATION);
-        String text = intent.getStringExtra(TEXT);
+        String origin = intent.getStringExtra(Constants.BUNDLE_ORIGIN);
+        String destination = intent.getStringExtra(Constants.BUNDLE_DESTINATION);
+        String text = intent.getStringExtra(Constants.BUNDLE_TEXT);
         String response = Helpers.makeRequest(URLMaker.getTranslateUrl(origin, destination, text), null);
         JSONArray s = ResponseParser.getTranslatedText(response, this);
         StringBuilder translation = new StringBuilder();
@@ -32,8 +27,8 @@ public class TranslatingService extends IntentService {
                 translation.append(s.getString(i))
                         .append('\n');
             }
-            Intent broadcastIntent = new Intent(TranslateFragment.BROADCAST);
-            broadcastIntent.putExtra(TEXT, translation.toString());
+            Intent broadcastIntent = new Intent(Constants.BROADCAST);
+            broadcastIntent.putExtra(Constants.BUNDLE_TEXT, translation.toString());
             sendBroadcast(broadcastIntent);
         }
         catch (JSONException e) {

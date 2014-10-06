@@ -11,22 +11,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import group.technopark.translater.Constants;
 import group.technopark.translater.adapters.LanguageElement;
 
 public class ResponseParser {
-
-    public static final String CODE = "code";
-    public static final String TEXT = "text";
-    public static final String DIRECTIONS = "dirs";
-    public static final String LANGUAGES = "langs";
-    public static final String MESSAGE = "message";
 
     public static void showErrMsg(String response, Context context) {
         if(context != null)
             try {
                 JSONObject json = new JSONObject(response);
-                int code = json.getInt(CODE);
-                String msg = json.getString(MESSAGE);
+                int code = json.getInt(Constants.RESPONSE_CODE);
+                String msg = json.getString(Constants.RESPONSE_MESSAGE);
                 Toast.makeText(context, code + " " + msg, Toast.LENGTH_SHORT).show();
             } catch (JSONException e1) {
                 e1.printStackTrace();
@@ -38,7 +33,7 @@ public class ResponseParser {
         if(response != null)
             try {
                 JSONObject json = new JSONObject(response);
-                text = json.getJSONArray(TEXT);
+                text = json.getJSONArray(Constants.RESPONSE_TEXT);
             } catch (JSONException e) {
                 showErrMsg(response, context);
             }
@@ -50,7 +45,7 @@ public class ResponseParser {
         if(response != null)
             try {
                 JSONObject json = new JSONObject(response);
-                JSONArray dirs = json.getJSONArray(DIRECTIONS);
+                JSONArray dirs = json.getJSONArray(Constants.RESPONSE_DIRECTIONS);
                 directions = new ArrayList<String>();
                 for(int i = 0; i < dirs.length(); i++) {
                     directions.add(dirs.getString(i));
@@ -66,7 +61,7 @@ public class ResponseParser {
         if(response != null) {
             try {
                 JSONObject json = new JSONObject(response);
-                JSONObject langs = json.getJSONObject(LANGUAGES);
+                JSONObject langs = json.getJSONObject(Constants.RESPONSE_LANGUAGES);
                 Iterator<String> iter = langs.keys();
                 while (iter.hasNext()) {
                     String code = iter.next();

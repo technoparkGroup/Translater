@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import group.technopark.translater.Constants;
 import group.technopark.translater.R;
 import group.technopark.translater.activities.MainActivity;
 import group.technopark.translater.adapters.LanguageAdapter;
@@ -33,16 +34,6 @@ import group.technopark.translater.network.TranslatingService;
 public class TranslateFragment
         extends Fragment
         implements View.OnClickListener, MyBroadcastReciever.TextViewSetter{
-
-    public static final String LANGUAGE_ELEMENT_FROM = "language_element_from";
-    public static final String LANGUAGE_ELEMENT_TO = "language_element_to";
-    public static final String TEXT_TO_TRANSLATE = "text_to_translate";
-    public static final String TRANSLATED_TEXT = "translated_text";
-
-    public static final String BROADCAST = "my_broadcast_action";
-    public static final String SHARED_PREFS = "translate_shared_prefs";
-    public static final String AUTO_TRANSLATE_PREFS = "auto_translate";
-
 
     private LanguageElement languageFrom;
     private LanguageElement languageTo;
@@ -63,9 +54,9 @@ public class TranslateFragment
         super.onCreate(savedInstanceState);
         System.out.print("Fragment onCreate");
         Bundle bundle = getArguments();
-        languageFrom = bundle.getParcelable(LanguagesList.SELECTED_LANGUAGE);
+        languageFrom = bundle.getParcelable(Constants.BUNDLE_ORIGIN);
         receiver = new MyBroadcastReciever(this);
-        IntentFilter filter = new IntentFilter(BROADCAST);
+        IntentFilter filter = new IntentFilter(Constants.BROADCAST);
         getActivity().registerReceiver(receiver, filter);
 
         originLanguageAdapter = new LanguageAdapter
@@ -127,13 +118,13 @@ public class TranslateFragment
         originLanguage.setSelection(originLanguageAdapter.getPosition(languageFrom));
 
         autoTranslateCheckbox = (CheckBox)layout.findViewById(R.id.auto_translate);
-        final SharedPreferences preferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        boolean isAutoTranslate = preferences.getBoolean(AUTO_TRANSLATE_PREFS, false);
+        final SharedPreferences preferences = getActivity().getSharedPreferences(Constants.SHARED_PREFS, Context.MODE_PRIVATE);
+        boolean isAutoTranslate = preferences.getBoolean(Constants.AUTO_TRANSLATE_PREFS, false);
         autoTranslateCheckbox.setChecked(isAutoTranslate);
         autoTranslateCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                preferences.edit().putBoolean(AUTO_TRANSLATE_PREFS, isChecked).apply();
+                preferences.edit().putBoolean(Constants.AUTO_TRANSLATE_PREFS, isChecked).apply();
             }
         });
         languageTo = (LanguageElement) destinationLanguage.getSelectedItem();
@@ -155,9 +146,9 @@ public class TranslateFragment
             public void afterTextChanged(Editable s) {
                 if (autoTranslateCheckbox.isChecked()) {
                     Intent serviceIntent = new Intent(getActivity(), TranslatingService.class);
-                    serviceIntent.putExtra(TranslatingService.TEXT, s.toString())
-                            .putExtra(TranslatingService.DESTINATION, languageTo.getCode())
-                            .putExtra(TranslatingService.ORIGIN, languageFrom.getCode());
+                    serviceIntent.putExtra(Constants.BUNDLE_TEXT, s.toString())
+                            .putExtra(Constants.BUNDLE_DESTINATION, languageTo.getCode())
+                            .putExtra(Constants.BUNDLE_ORIGIN, languageFrom.getCode());
                     getActivity().startService(serviceIntent);
                 }
             }
@@ -166,7 +157,7 @@ public class TranslateFragment
         if (savedInstanceState != null){
 //            languageFrom = savedInstanceState.getParcelable(LANGUAGE_ELEMENT_FROM);
 //            textToTranslate.setText(savedInstanceState.getString(TEXT_TO_TRANSLATE));
-            translatedText.setText(savedInstanceState.getString(TRANSLATED_TEXT));
+            translatedText.setText(savedInstanceState.getString(Constants.BUNDLE_TRANSLATED));
 //            languageTo = savedInstanceState.getParcelable(LANGUAGE_ELEMENT_TO);
         }
         return layout;
@@ -176,7 +167,7 @@ public class TranslateFragment
     public void onSaveInstanceState(Bundle outState) {
 //        outState.putParcelable(LANGUAGE_ELEMENT_FROM, languageFrom);
 //        outState.putString(TEXT_TO_TRANSLATE, textToTranslate.getText().toString());
-        outState.putString(TRANSLATED_TEXT, translatedText.getText().toString());
+        outState.putString(Constants.BUNDLE_TRANSLATED, translatedText.getText().toString());
 //        outState.putParcelable(LANGUAGE_ELEMENT_TO, languageTo);
         super.onSaveInstanceState(outState);
     }
@@ -186,9 +177,9 @@ public class TranslateFragment
         switch (v.getId()){
             case R.id.btn_translate:
                 Intent serviceIntent = new Intent(getActivity(), TranslatingService.class);
-                serviceIntent.putExtra(TranslatingService.TEXT, textToTranslate.getText().toString())
-                             .putExtra(TranslatingService.DESTINATION, languageTo.getCode())
-                             .putExtra(TranslatingService.ORIGIN, languageFrom.getCode());
+                serviceIntent.putExtra(Constants.BUNDLE_TEXT, textToTranslate.getText().toString())
+                             .putExtra(Constants.BUNDLE_DESTINATION, languageTo.getCode())
+                             .putExtra(Constants.BUNDLE_ORIGIN, languageFrom.getCode());
                 getActivity().startService(serviceIntent);
                 break;
             case R.id.swap:

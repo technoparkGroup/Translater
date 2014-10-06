@@ -7,14 +7,12 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import group.technopark.translater.Constants;
 import group.technopark.translater.R;
 import group.technopark.translater.adapters.LanguageElement;
 import group.technopark.translater.fragments.SplashScreen;
 
 public class MainActivity extends Activity implements FragmentController {
-
-    public static final String LANGUAGES_LIST_FRAGMENT_TAG = "languages_list_fragment";
-    public static final String TRANSLATE_FRAGMENT_TAG = "translate_fragment";
 
     private static HashMap<LanguageElement, ArrayList<LanguageElement>> langWithDirections;
 
@@ -47,15 +45,15 @@ public class MainActivity extends Activity implements FragmentController {
 
     public void restoreFragment(){
         Fragment fragment;
-        fragment = getFragmentManager().findFragmentByTag(TRANSLATE_FRAGMENT_TAG);
+        fragment = getFragmentManager().findFragmentByTag(Constants.TRANSLATE_FRAGMENT_TAG);
         if (fragment != null){
-            setFragment(R.id.container, fragment, TRANSLATE_FRAGMENT_TAG, false);
+            setFragment(R.id.container, fragment, Constants.TRANSLATE_FRAGMENT_TAG, false);
             return;
         }
 
-        fragment = getFragmentManager().findFragmentByTag(LANGUAGES_LIST_FRAGMENT_TAG);
+        fragment = getFragmentManager().findFragmentByTag(Constants.LANGUAGES_LIST_FRAGMENT_TAG);
         if (fragment != null){
-            setFragment(R.id.container, fragment, LANGUAGES_LIST_FRAGMENT_TAG, false);
+            setFragment(R.id.container, fragment, Constants.LANGUAGES_LIST_FRAGMENT_TAG, false);
             return;
         }
         setFragment(R.id.container, new SplashScreen(), "", false);

@@ -6,6 +6,7 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
+import group.technopark.translater.Constants;
 import group.technopark.translater.R;
 import group.technopark.translater.activities.FragmentController;
 import group.technopark.translater.activities.MainActivity;
@@ -42,7 +43,7 @@ public class LoaderTask extends AsyncTask<Void, Integer, Void> implements Helper
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        mCallback.setFragment(R.id.container, new LanguagesList(), MainActivity.LANGUAGES_LIST_FRAGMENT_TAG, false);
+        mCallback.setFragment(R.id.container, new LanguagesList(), Constants.LANGUAGES_LIST_FRAGMENT_TAG, false);
     }
 
     public void setProgress(int progress, int max){
