@@ -24,6 +24,7 @@ public class Constants {
 
     public static final String LANGUAGES_LIST_FRAGMENT_TAG = "languages_list_fragment";
     public static final String TRANSLATE_FRAGMENT_TAG = "translate_fragment";
+    public static final String SPLASH_FRAGMENT_TAG = "splash_fragment";
 
     public static final int CODE_OK = 200;
     public static final int CODE_FAIL = 500;

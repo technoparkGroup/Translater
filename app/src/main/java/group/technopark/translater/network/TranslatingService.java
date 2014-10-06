@@ -22,7 +22,7 @@ public class TranslatingService extends IntentService {
         String response = Helpers.makeRequest(URLMaker.getTranslateUrl(origin, destination, text), null);
         int code = Constants.CODE_FAIL;
         if(!response.equals(Constants.ERROR_RESPONSE)) {
-            JSONArray s = ResponseParser.getTranslatedText(response, this);
+            JSONArray s = ResponseParser.getTranslatedText(response);
             StringBuilder translation = new StringBuilder();
             try {
                 for (int i = 0; i < s.length(); i++) {

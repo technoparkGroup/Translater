@@ -28,7 +28,7 @@ public class ResponseParser {
             }
     }
 
-    public static JSONArray getTranslatedText(String response, Context context) {
+    public static JSONArray getTranslatedText(String response) {
         JSONArray text = null;
         if(response != null)
             try {
@@ -40,7 +40,7 @@ public class ResponseParser {
         return text;
     }
 
-    public static ArrayList<String> getDirections(String response, Context context) {
+    public static ArrayList<String> getDirections(String response) {
         ArrayList<String> directions = null;
         if(response != null)
             try {
@@ -56,7 +56,7 @@ public class ResponseParser {
         return directions;
     }
 
-    public static ArrayList<LanguageElement> getLanguages(String response, Context context) {
+    public static ArrayList<LanguageElement> getLanguages(String response) {
         ArrayList<LanguageElement> languages = new ArrayList<LanguageElement>();
         if(response != null) {
             try {
