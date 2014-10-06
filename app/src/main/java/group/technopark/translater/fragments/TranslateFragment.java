@@ -107,7 +107,13 @@ public class TranslateFragment
                 languageFrom = originLanguageAdapter.getElement(position);
                 ArrayList<LanguageElement> list = new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().get(languageFrom));
                 destinationLanguageAdapter.changeArray(list);
-                //destinationLanguage.setSelection(0);
+                if (MainActivity.getLangWithDirections().get(languageFrom).contains(languageTo)){
+                    destinationLanguage.setSelection(destinationLanguageAdapter.getPositionByElement(languageTo));
+                }else
+                    destinationLanguage.setSelection(0);
+
+                languageTo = destinationLanguageAdapter.getElement(destinationLanguage.getSelectedItemPosition());
+                tryEnableSwap();
             }
 
             @Override
@@ -128,7 +134,9 @@ public class TranslateFragment
             }
         });
         languageTo = (LanguageElement) destinationLanguage.getSelectedItem();
+
         tryEnableSwap();
+
         translatedText = (TextView)layout.findViewById(R.id.translated_text);
         textToTranslate = (EditText)layout.findViewById(R.id.text_to_translate);
         textToTranslate.addTextChangedListener(new TextWatcher() {
@@ -193,7 +201,6 @@ public class TranslateFragment
         languageFrom = languageTo;
         languageTo = element;
 
-
         //меняем местами тексты
         String toTranslate = textToTranslate.getText().toString();
         textToTranslate.setText(translatedText.getText());
@@ -211,7 +218,6 @@ public class TranslateFragment
 
     public void tryEnableSwap(){
         swapBtn.setVisibility(View.INVISIBLE);
-        //Nullp
         ArrayList<LanguageElement> languageElements = new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().get(languageTo));
         if(languageElements.contains(languageFrom))
             swapBtn.setVisibility(View.VISIBLE);
