@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import group.technopark.translater.Constants;
 import group.technopark.translater.R;
@@ -28,22 +29,16 @@ public class LoaderTask extends AsyncTask<Void, Integer, Void> implements Helper
 
     @Override
     protected Void doInBackground(Void... params) {
-        try{
-            maxProgress = 4;
-            String response = Helpers.makeRequest(URLMaker.getLanguageUrl(), this);
-            setProgress(1);
-            Thread.sleep(2000);
-            ArrayList<LanguageElement> languages = ResponseParser.getLanguages(response, mContext);
-            setProgress(2);
-            Thread.sleep(2000);
-            ArrayList<String> directions = ResponseParser.getDirections(response, mContext);
-            setProgress(3);
-            Thread.sleep(2000);
-            MainActivity.setLangToDirMap(Helpers.createLangToDirectionMap(languages, directions));
-            setProgress(4);
-        }catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        maxProgress = 100;
+        progress = 0;
+        String response = Helpers.makeRequest(URLMaker.getLanguageUrl(), this);
+        setSmoothProgress();
+        ArrayList<LanguageElement> languages = ResponseParser.getLanguages(response, mContext);
+        setSmoothProgress();
+        ArrayList<String> directions = ResponseParser.getDirections(response, mContext);
+        setSmoothProgress();
+        MainActivity.setLangToDirMap(Helpers.createLangToDirectionMap(languages, directions));
+        setSmoothProgress();
         return null;
     }
 
@@ -77,5 +72,17 @@ public class LoaderTask extends AsyncTask<Void, Integer, Void> implements Helper
     public void setProgressBar(ProgressBar bar){
         mBar = bar;
         setProgress(progress);
+    }
+
+    private void setSmoothProgress(){
+        for (int i = 0; i < 25; i++)
+        {
+            try {
+                TimeUnit.MILLISECONDS.sleep(10);
+                setProgress(progress + 1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
