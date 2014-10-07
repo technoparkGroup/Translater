@@ -168,20 +168,19 @@ public class TranslateFragment
         });
 
         if (savedInstanceState != null){
-//            languageFrom = savedInstanceState.getParcelable(LANGUAGE_ELEMENT_FROM);
-//            textToTranslate.setText(savedInstanceState.getString(TEXT_TO_TRANSLATE));
+            languageFrom = savedInstanceState.getParcelable(Constants.BUNDLE_LANGUAGE_ELEMENT_ORIGIN);
             translatedText.setText(savedInstanceState.getString(Constants.BUNDLE_TRANSLATED));
-//            languageTo = savedInstanceState.getParcelable(LANGUAGE_ELEMENT_TO);
+            languageTo = savedInstanceState.getParcelable(Constants.BUNDLE_LANGUAGE_ELEMENT_DESTINATION);
+            destinationLanguage.setSelection(destinationLanguageAdapter.getPositionByElement(languageTo));
         }
         return layout;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-//        outState.putParcelable(LANGUAGE_ELEMENT_FROM, languageFrom);
-//        outState.putString(TEXT_TO_TRANSLATE, textToTranslate.getText().toString());
+        outState.putParcelable(Constants.BUNDLE_LANGUAGE_ELEMENT_ORIGIN, languageFrom);
         outState.putString(Constants.BUNDLE_TRANSLATED, translatedText.getText().toString());
-//        outState.putParcelable(LANGUAGE_ELEMENT_TO, languageTo);
+        outState.putParcelable(Constants.BUNDLE_LANGUAGE_ELEMENT_DESTINATION, languageTo);
         super.onSaveInstanceState(outState);
     }
 

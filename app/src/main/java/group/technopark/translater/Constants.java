@@ -15,6 +15,8 @@ public class Constants {
     public static final String BUNDLE_ORIGIN = "origin";
     public static final String BUNDLE_DESTINATION = "destination";
     public static final String BUNDLE_TRANSLATED = "translated_text";
+    public static final String BUNDLE_LANGUAGE_ELEMENT_DESTINATION = "language_element_dest";
+    public static final String BUNDLE_LANGUAGE_ELEMENT_ORIGIN = "language_element_origin";
 
     public static final String KEY = "trnsl.1.1.20141001T173904Z.0c42a06b5eb21ee0.bab94abfffa9e01a5ae05451089056e4f0a620c7";
 
