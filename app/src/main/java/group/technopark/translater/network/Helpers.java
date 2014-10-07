@@ -16,7 +16,7 @@ import group.technopark.translater.adapters.LanguageElement;
 
 public class Helpers {
 
-    public static String makeRequest(String urlStr, ProgressUpdater updater) {
+    public static String makeRequest(String urlStr) {
         String response = null;
         try {
             URL url = new URL(urlStr);
@@ -24,7 +24,7 @@ public class Helpers {
             connection.setRequestMethod("GET");
             connection.connect();
             InputStream is = connection.getInputStream();
-            response = getResponse(is, updater);
+            response = getResponse(is);
             is.close();
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -37,7 +37,7 @@ public class Helpers {
         return response;
     }
 
-    public static String getResponse(InputStream is, ProgressUpdater updater) throws IOException {
+    public static String getResponse(InputStream is) throws IOException {
         String nextLine;
         InputStreamReader isr = new InputStreamReader(is, "UTF-8");
         BufferedReader bf = new BufferedReader(isr);
@@ -71,9 +71,4 @@ public class Helpers {
         }
         return langsToDiriections;
     }
-
-    public interface ProgressUpdater {
-        public void setProgress(int progress);
-    }
-
 }

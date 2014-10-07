@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Translater</string>
+    <string name="app_name">Translator</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="auto_translate">Auto Translate</string>
@@ -9,74 +8,4 @@
     <string name="swap_button_content_description">swap language</string>
     <string name="empty_list">Список пуст. Проверьте подключение к сети.</string>
     <string name="logo_content_description">logo_content</string>
-
-    <array name="lang_codes">
-        <item>sq</item>
-        <item>en</item>
-        <item>hy</item>
-        <item>az</item>
-        <item>be</item>
-        <item>bg</item>
-        <item>hu</item>
-        <item>nl</item>
-        <item>el</item>
-        <item>da</item>
-        <item>it</item>
-        <item>es</item>
-        <item>ca</item>
-        <item>lv</item>
-        <item>lt</item>
-        <item>mk</item>
-        <item>de</item>
-        <item>no</item>
-        <item>pl</item>
-        <item>ro</item>
-        <item>ru</item>
-        <item>sr</item>
-        <item>sk</item>
-        <item>sl</item>
-        <item>tr</item>
-        <item>uk</item>
-        <item>fi</item>
-        <item>fr</item>
-        <item>hr</item>
-        <item>cs</item>
-        <item>sv</item>
-        <item>et</item>
-    </array>
-
-    <array name="lang_title">
-        <item>албанский</item>
-        <item>английский</item>
-        <item>армянский</item>
-        <item>азербайджанский</item>
-        <item>белорусский</item>
-        <item>болгарский</item>
-        <item>венгерский</item>
-        <item>голландский</item>
-        <item>греческий</item>
-        <item>датский</item>
-        <item>итальянский</item>
-        <item>испанский</item>
-        <item>каталанский</item>
-        <item>латышский</item>
-        <item>литовский</item>
-        <item>македонский</item>
-        <item>немецкий</item>
-        <item>норвежский</item>
-        <item>польский</item>
-        <item>румынский</item>
-        <item>русский</item>
-        <item>сербский</item>
-        <item>словацкий</item>
-        <item>словенский</item>
-        <item>турецкий</item>
-        <item>украинский</item>
-        <item>финский</item>
-        <item>французский</item>
-        <item>хорватский</item>
-        <item>чешский</item>
-        <item>шведский</item>
-        <item>эстонский</item>
-    </array>
 </resources>

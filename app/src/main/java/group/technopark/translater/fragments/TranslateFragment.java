@@ -39,7 +39,6 @@ public class TranslateFragment
 
     private LanguageElement languageFrom;
     private LanguageElement languageTo;
-    private Button translate;
     private ImageButton swapBtn;
     private TextView translatedText;
     private EditText textToTranslate;
@@ -55,18 +54,19 @@ public class TranslateFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.print("Fragment onCreate");
+
         Bundle bundle = getArguments();
         languageFrom = bundle.getParcelable(Constants.BUNDLE_ORIGIN);
+
         receiver = new MyBroadcastReciever(this);
         IntentFilter filter = new IntentFilter(Constants.BROADCAST);
         getActivity().registerReceiver(receiver, filter);
 
         originLanguageAdapter = new LanguageAdapter
-                (getActivity(), R.layout.language_element_list, new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().keySet()));
+                (getActivity(), R.layout.language_spinner_element, new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().keySet()));
 
         destinationLanguageAdapter = new LanguageAdapter
-                (getActivity(), R.layout.language_element_list, new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().get(languageFrom)));
+                (getActivity(), R.layout.language_spinner_element, new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().get(languageFrom)));
     }
 
     @Override
@@ -80,8 +80,9 @@ public class TranslateFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_translate, container, false);
 
-        translate = (Button)layout.findViewById(R.id.btn_translate);
+        Button translate = (Button) layout.findViewById(R.id.btn_translate);
         translate.setOnClickListener(this);
+
         translateProgress = (ProgressBar)layout.findViewById(R.id.translate_progress);
         translateProgress.setVisibility(View.INVISIBLE);
 
@@ -102,7 +103,6 @@ public class TranslateFragment
 
             }
         });
-        destinationLanguage.setSelection(0);
 
         originLanguage = (Spinner)layout.findViewById(R.id.spinner_origin_lang);
         originLanguage.setAdapter(originLanguageAdapter);
@@ -126,7 +126,6 @@ public class TranslateFragment
 
             }
         });
-        originLanguage.setSelection(originLanguageAdapter.getPosition(languageFrom));
 
         autoTranslateCheckbox = (CheckBox)layout.findViewById(R.id.auto_translate);
         final SharedPreferences preferences = getActivity().getSharedPreferences(Constants.SHARED_PREFS, Context.MODE_PRIVATE);
@@ -138,11 +137,9 @@ public class TranslateFragment
                 preferences.edit().putBoolean(Constants.AUTO_TRANSLATE_PREFS, isChecked).apply();
             }
         });
-        languageTo = (LanguageElement) destinationLanguage.getSelectedItem();
-
-        tryEnableSwap();
 
         translatedText = (TextView)layout.findViewById(R.id.translated_text);
+
         textToTranslate = (EditText)layout.findViewById(R.id.text_to_translate);
         textToTranslate.addTextChangedListener(new TextWatcher() {
             @Override
@@ -157,7 +154,7 @@ public class TranslateFragment
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (autoTranslateCheckbox.isChecked()) {
+                if (autoTranslateCheckbox.isChecked() && languageFrom != null && languageTo != null) {
                     Intent serviceIntent = new Intent(getActivity(), TranslatingService.class);
                     serviceIntent.putExtra(Constants.BUNDLE_TEXT, s.toString())
                             .putExtra(Constants.BUNDLE_DESTINATION, languageTo.getCode())
@@ -168,19 +165,25 @@ public class TranslateFragment
         });
 
         if (savedInstanceState != null){
-            languageFrom = savedInstanceState.getParcelable(Constants.BUNDLE_LANGUAGE_ELEMENT_ORIGIN);
+            languageFrom = savedInstanceState.getParcelable(Constants.BUNDLE_ORIGIN);
+            textToTranslate.setText(savedInstanceState.getString(Constants.BUNDLE_TEXT));
             translatedText.setText(savedInstanceState.getString(Constants.BUNDLE_TRANSLATED));
-            languageTo = savedInstanceState.getParcelable(Constants.BUNDLE_LANGUAGE_ELEMENT_DESTINATION);
-            destinationLanguage.setSelection(destinationLanguageAdapter.getPositionByElement(languageTo));
+            languageTo = savedInstanceState.getParcelable(Constants.BUNDLE_DESTINATION);
+        } else {
+            languageTo = (LanguageElement) destinationLanguage.getSelectedItem();
         }
+        originLanguage.setSelection(originLanguageAdapter.getPosition(languageFrom));
+        destinationLanguage.setSelection(destinationLanguageAdapter.getPosition(languageTo));
+        tryEnableSwap();
         return layout;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(Constants.BUNDLE_LANGUAGE_ELEMENT_ORIGIN, languageFrom);
+        outState.putParcelable(Constants.BUNDLE_ORIGIN, languageFrom);
+        outState.putString(Constants.BUNDLE_TEXT, textToTranslate.getText().toString());
         outState.putString(Constants.BUNDLE_TRANSLATED, translatedText.getText().toString());
-        outState.putParcelable(Constants.BUNDLE_LANGUAGE_ELEMENT_DESTINATION, languageTo);
+        outState.putParcelable(Constants.BUNDLE_DESTINATION, languageTo);
         super.onSaveInstanceState(outState);
     }
 
