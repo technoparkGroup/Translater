@@ -90,7 +90,9 @@
                 android:scrollbars="vertical"
                 android:layout_marginTop="10dp"
                 android:id="@+id/translated_text"
-                android:layout_below="@+id/auto_translate" />
+                android:layout_below="@+id/auto_translate"
+                android:maxLines="100"
+                />
 
             <ProgressBar
                 style="?android:attr/progressBarStyleLargeInverse"

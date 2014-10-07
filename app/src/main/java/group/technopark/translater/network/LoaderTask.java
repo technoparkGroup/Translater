@@ -1,6 +1,5 @@
 package group.technopark.translater.network;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ProgressBar;
 
@@ -14,31 +13,30 @@ import group.technopark.translater.activities.MainActivity;
 import group.technopark.translater.adapters.LanguageElement;
 import group.technopark.translater.fragments.LanguagesList;
 
-public class LoaderTask extends AsyncTask<Void, Integer, Void> implements Helpers.ProgressUpdater {
+public class LoaderTask extends AsyncTask<Void, Integer, Void> {
     private ProgressBar mBar;
     private FragmentController mCallback;
-    private Context mContext;
     private int maxProgress;
     private int progress;
 
-    public LoaderTask(ProgressBar bar, FragmentController callback, Context context) {
+    public LoaderTask(ProgressBar bar, FragmentController callback) {
         mBar = bar;
         mCallback = callback;
-        mContext = context;
     }
 
     @Override
     protected Void doInBackground(Void... params) {
         maxProgress = 100;
         progress = 0;
-        String response = Helpers.makeRequest(URLMaker.getLanguageUrl(), this);
-        setSmoothProgress();
+        setProgress(progress);
+        String response = Helpers.makeRequest(URLMaker.getLanguageUrl());
+        publishProgress();
         ArrayList<LanguageElement> languages = ResponseParser.getLanguages(response);
-        setSmoothProgress();
+        publishProgress();
         ArrayList<String> directions = ResponseParser.getDirections(response);
-        setSmoothProgress();
+        publishProgress();
         MainActivity.setLangToDirMap(Helpers.createLangToDirectionMap(languages, directions));
-        setSmoothProgress();
+        publishProgress();
         return null;
     }
 
@@ -46,7 +44,7 @@ public class LoaderTask extends AsyncTask<Void, Integer, Void> implements Helper
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
         if (mBar != null)
-            mBar.setProgress(values[0]);
+            setSmoothProgress();
     }
 
     @Override
@@ -75,14 +73,13 @@ public class LoaderTask extends AsyncTask<Void, Integer, Void> implements Helper
     }
 
     private void setSmoothProgress(){
-        for (int i = 0; i < 25; i++)
-        {
-            try {
+        try {
+            for (int i = 0; i < 25; i++) {
                 TimeUnit.MILLISECONDS.sleep(10);
                 setProgress(progress + 1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

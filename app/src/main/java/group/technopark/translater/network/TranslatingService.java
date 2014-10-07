@@ -19,7 +19,7 @@ public class TranslatingService extends IntentService {
         String origin = intent.getStringExtra(Constants.BUNDLE_ORIGIN);
         String destination = intent.getStringExtra(Constants.BUNDLE_DESTINATION);
         String text = intent.getStringExtra(Constants.BUNDLE_TEXT);
-        String response = Helpers.makeRequest(URLMaker.getTranslateUrl(origin, destination, text), null);
+        String response = Helpers.makeRequest(URLMaker.getTranslateUrl(origin, destination, text));
         int code = Constants.CODE_FAIL;
         if(!response.equals(Constants.ERROR_RESPONSE)) {
             JSONArray s = ResponseParser.getTranslatedText(response);

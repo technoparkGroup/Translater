@@ -62,7 +62,7 @@ public class LanguagesList extends Fragment implements AdapterView.OnItemClickLi
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_languages_list, container, false);
         ListView languages = (ListView) layout.findViewById(R.id.languages_list);
-        adapter = new LanguageAdapter(getActivity(), R.layout.language_element_list, new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().keySet()));
+        adapter = new LanguageAdapter(getActivity(), R.layout.language_list_element, new ArrayList<LanguageElement>(MainActivity.getLangWithDirections().keySet()));
         languages.setAdapter(adapter);
         languages.setOnItemClickListener(this);
         languages.setEmptyView(layout.findViewById(R.id.empty_view));
