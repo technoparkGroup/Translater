@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import group.technopark.translater.Constants;
 import group.technopark.translater.R;
@@ -26,25 +25,26 @@ public class LoaderTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        maxProgress = 100;
+        maxProgress = 4;
         progress = 0;
         setProgress(progress);
         String response = Helpers.makeRequest(URLMaker.getLanguageUrl());
-        setSmoothProgress();
+        publishProgress(1);
         ArrayList<LanguageElement> languages = ResponseParser.getLanguages(response);
-        setSmoothProgress();
+        publishProgress(2);
         ArrayList<String> directions = ResponseParser.getDirections(response);
-        setSmoothProgress();
+        publishProgress(3);
         MainActivity.setLangToDirMap(Helpers.createLangToDirectionMap(languages, directions));
-        setSmoothProgress();
+        publishProgress(4);
         return null;
     }
 
     @Override
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
-        if (mBar != null)
-            setSmoothProgress();
+        if (mBar != null) {
+            mBar.setProgress(values[0]);
+        }
     }
 
     @Override
@@ -70,16 +70,5 @@ public class LoaderTask extends AsyncTask<Void, Integer, Void> {
     public void setProgressBar(ProgressBar bar){
         mBar = bar;
         setProgress(progress);
-    }
-
-    private void setSmoothProgress(){
-        try {
-            for (int i = 0; i < 25; i++) {
-                TimeUnit.MILLISECONDS.sleep(10);
-                setProgress(progress + 1);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }
