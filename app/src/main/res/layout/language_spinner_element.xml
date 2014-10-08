@@ -11,5 +11,6 @@
         android:id="@+id/language_name"
         android:layout_centerVertical="true"
         android:layout_margin="5dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:singleLine="true" />
 </RelativeLayout>

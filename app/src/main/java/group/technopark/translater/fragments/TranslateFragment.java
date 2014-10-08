@@ -138,7 +138,7 @@ public class TranslateFragment
             }
         });
 
-        translatedText = (TextView)layout.findViewById(R.id.translated_text);
+        translatedText = (EditText)layout.findViewById(R.id.translated_text);
 
         textToTranslate = (EditText)layout.findViewById(R.id.text_to_translate);
         textToTranslate.addTextChangedListener(new TextWatcher() {
@@ -246,6 +246,7 @@ public class TranslateFragment
     @Override
     public void notifyError() {
         if(getActivity() != null) {
+            translateProgress.setVisibility(View.INVISIBLE);
             Toast.makeText(getActivity(), "Произошла ошибка", Toast.LENGTH_SHORT).show();
         }
     }

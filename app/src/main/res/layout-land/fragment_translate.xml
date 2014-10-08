@@ -23,7 +23,7 @@
             android:id="@+id/swap"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/swap"
+            android:src="@drawable/ic_action_refresh"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:contentDescription="@string/swap_button_content_description" />
@@ -42,7 +42,7 @@
             android:layout_weight="5"
             android:text="@string/translate"
             android:id="@+id/btn_translate"
-            android:layout_marginTop="10dp"/>
+            />
 
     </LinearLayout>
 
@@ -85,17 +85,19 @@
             android:scrollbars="vertical"
             android:layout_margin="10dp"/>
 
-        <TextView
+        <EditText
             android:padding="10dp"
+            android:editable="false"
+            android:inputType="none"
             android:background="#E3E3E3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
             android:layout_marginTop="10dp"
-            android:maxLines="100"
             android:id="@+id/translated_text"
             android:layout_weight="1"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            />
 
 
 
